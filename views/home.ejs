@@ -1,2 +1,64 @@
-<H1>Welcome to Colubhub </H1>
-<h4>Server is live !! </h4>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .status {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="status" id="serverStatus">Checking server status...</div>
+        <button class="button" onclick="checkServerStatus()">Check Again</button>
+    </div>
+
+    <script>
+        function checkServerStatus() {
+            // You can add your server status checking logic here
+            // For example, make an AJAX request to your server
+
+            // For demo purposes, let's simulate a successful check
+            const statusElement = document.getElementById('serverStatus');
+            statusElement.textContent = 'Server is live!';
+            statusElement.style.color = '#008000';
+        }
+    </script>
+</body>
+
+</html>
