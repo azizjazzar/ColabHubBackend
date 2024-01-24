@@ -1,28 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to ColabHub</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
 
-    h1 {
-      color: #333;
-    }
-  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .status {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        /* Nouvelle couleur pour le texte "Server is live!" */
+        .live {
+            color: #008000;
+        }
+    </style>
 </head>
+
 <body>
-  <h1>Welcome to ColabHub!</h1>
+    <div class="container">
+        <!-- Ajout de la classe "live" pour changer la couleur du texte -->
+        <div class="status live" id="serverStatus">Checking server status...</div>
+    </div>
+
+    <script>
+        function checkServerStatus() {
+            // Vous pouvez ajouter votre logique de vérification de l'état du serveur ici
+            // Par exemple, effectuer une requête AJAX vers votre serveur
+
+            // À des fins de démonstration, simulez une vérification réussie
+            const statusElement = document.getElementById('serverStatus');
+            statusElement.textContent = 'Server is live!';
+            // Ajout de la classe "live" pour changer la couleur du texte en vert
+            statusElement.classList.add('live');
+        }
+
+        // Vérifiez automatiquement toutes les 5 secondes (5000 millisecondes)
+        setInterval(checkServerStatus, 5000);
+
+        // Exécutez la vérification au chargement initial
+        checkServerStatus();
+    </script>
 </body>
+
 </html>
