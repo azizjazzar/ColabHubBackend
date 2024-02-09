@@ -1,3 +1,7 @@
+const contributionController = require('./controllers/Contribution');
+const taskController = require('./controllers/Task');
+
+
 require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const connectDB = require("./config/db");
@@ -15,6 +19,20 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", require("./routes/auth"));
+
+// Routes for Contribution controller
+app.post('/api/contributions', contributionController.createContribution);
+app.get('/api/contributions', contributionController.getAllContributions);
+app.get('/api/contributions/:contributionId', contributionController.getContributionById);
+app.put('/api/contributions/:contributionId', contributionController.updateContributionById);
+app.delete('/api/contributions/:contributionId', contributionController.deleteContributionById);
+
+// Routes for Task controller
+app.post('/api/tasks', taskController.createTask);
+app.get('/api/tasks', taskController.getAllTasks);
+app.get('/api/tasks/:taskId', taskController.getTaskById);
+app.put('/api/tasks/:taskId', taskController.updateTaskById);
+app.delete('/api/tasks/:taskId', taskController.deleteTaskById);
 
 app.listen(3000, '0.0.0.0', function() {
   console.log('Listening to port: ' + 3000);

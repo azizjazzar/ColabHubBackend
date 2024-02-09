@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
-  nom: {
+const ContributionSchema = new mongoose.Schema({
+  name: {
     type: String,
   },
 
@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
 
 });
 
-UserSchema.pre('save', async function (next) {
+ContributionSchema.pre('save', async function (next) {
   try {
     if (!this.id) {
       // Générez un identifiant unique si celui-ci n'est pas déjà défini
@@ -22,5 +22,5 @@ UserSchema.pre('save', async function (next) {
   }
 });
 
-const User = mongoose.model("contribution",ContributionSchema);
+const Contribution = mongoose.model("contribution",ContributionSchema);
 module.exports = Contribution;

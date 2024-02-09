@@ -1,29 +1,29 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
-
-    name: {
-        type: Date,
-      },
+const TaskSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   dateStart: {
     type: Date,
+    required: true,
   },
   dateEnd: {
     type: Date,
+    required: true,
   },
-  Contribution: {
-    type: Contribution,
+  contribution: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Contribution",
   },
-
-
-
 });
 
-UserSchema.pre('save', async function (next) {
+TaskSchema.pre("save", async function (next) {
   try {
     if (!this.id) {
       // Générez un identifiant unique si celui-ci n'est pas déjà défini
-      const count = await mongoose.model('contribution').countDocuments();
+      const count = await mongoose.model("Task").countDocuments();
       this.id = count + 1;
     }
     next();
@@ -32,5 +32,5 @@ UserSchema.pre('save', async function (next) {
   }
 });
 
-const User = mongoose.model("contribution",ContributionSchema);
-module.exports = Contribution;
+const Task = mongoose.model("Task", TaskSchema);
+module.exports = Task;
