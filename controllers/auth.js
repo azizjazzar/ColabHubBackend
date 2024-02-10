@@ -52,7 +52,7 @@ exports.getByEmail = async (req, res, next) => {
     const user = await User.findOne({ email }).select({ __v: 0 });
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "Utilisateur introuvable par email" });
+      return res.status(200).json({ success: false, message: "Utilisateur introuvable par email" });
     }
 
     // Retourne directement les attributs de l'utilisateur sans la clé "user"
