@@ -6,6 +6,11 @@ const ContributorSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  Tasks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false
+  }],
   pricePerHour: {
     type: Number,
     required: true
@@ -14,6 +19,7 @@ const ContributorSchema = new mongoose.Schema({
     type: String,
     required: true
   }
+
 });
 
 const Contributor = mongoose.model('Contributor', ContributorSchema);
