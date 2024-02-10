@@ -5,6 +5,10 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  desciption: {
+    type: String,
+    required: true,
+  },
   dateStart: {
     type: Date,
     required: true,
@@ -17,6 +21,11 @@ const TaskSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Contribution",
   },
+  Contributor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "contributor",
+  },
+  
 });
 
 TaskSchema.pre("save", async function (next) {
