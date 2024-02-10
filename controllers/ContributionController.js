@@ -1,6 +1,6 @@
-const Contribution = require("../models/Contribution");
+const Contribution = require('../models/ContributionModel');
 
-// Contrôleur pour créer une nouvelle contribution
+// Créer une nouvelle contribution
 exports.createContribution = async (req, res) => {
   try {
     const newContribution = new Contribution(req.body);
@@ -11,7 +11,7 @@ exports.createContribution = async (req, res) => {
   }
 };
 
-// Contrôleur pour récupérer toutes les contributions
+// Récupérer toutes les contributions
 exports.getAllContributions = async (req, res) => {
   try {
     const contributions = await Contribution.find();
@@ -21,7 +21,7 @@ exports.getAllContributions = async (req, res) => {
   }
 };
 
-// Contrôleur pour récupérer une contribution par son ID
+// Récupérer une contribution par son ID
 exports.getContributionById = async (req, res) => {
   try {
     const contribution = await Contribution.findById(req.params.contributionId);
@@ -34,7 +34,7 @@ exports.getContributionById = async (req, res) => {
   }
 };
 
-// Contrôleur pour mettre à jour une contribution par son ID
+// Mettre à jour une contribution par son ID
 exports.updateContributionById = async (req, res) => {
   try {
     const contribution = await Contribution.findByIdAndUpdate(req.params.contributionId, req.body, { new: true });
@@ -47,7 +47,7 @@ exports.updateContributionById = async (req, res) => {
   }
 };
 
-// Contrôleur pour supprimer une contribution par son ID
+// Supprimer une contribution par son ID
 exports.deleteContributionById = async (req, res) => {
   try {
     const contribution = await Contribution.findByIdAndDelete(req.params.contributionId);
