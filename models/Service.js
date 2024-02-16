@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const projectSchema = new mongoose.Schema({
+const serviceSchema = new mongoose.Schema({
     freelancerId:  {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -18,4 +18,4 @@ const projectSchema = new mongoose.Schema({
     images: [String]
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Service', serviceSchema);

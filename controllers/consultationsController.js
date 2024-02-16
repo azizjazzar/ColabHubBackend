@@ -2,6 +2,10 @@ const Consultation = require('../models/consultation');
 
 exports.createConsultation = async (req, res) => {
     try {
+        // Si les champs availabilityStart et availabilityEnd sont des chaînes vides, les remplacer par null
+        if (!req.body.availabilityStart) req.body.availabilityStart = null;
+        if (!req.body.availabilityEnd) req.body.availabilityEnd = null;
+
         const newConsultation = new Consultation(req.body);
         const savedConsultation = await newConsultation.save();
         res.status(201).json(savedConsultation);
@@ -9,6 +13,7 @@ exports.createConsultation = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 };
+
 
 exports.getAllConsultations = async (req, res) => {
     try {

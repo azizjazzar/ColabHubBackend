@@ -9,7 +9,7 @@ const cors = require("cors"); // Ajoutez cette ligne
 const app = express();
 const stripe = require("stripe")('sk_test_51OErmACis87pjNWpHjxy4jOfBeV5X2cD3bB2op5qNVdo8OY7pqpqJh235cFlSwbjNxfjsz6FMZAD1EVCWJs2kyDq00LYDaUrax');
 const consultationsRoutes = require('./routes/consultations');
-const projectsRoutes = require('./routes/projects');
+const servicesRoutes = require('./routes/services');
 connectDB();
 
 app.use(express.json());
@@ -34,7 +34,7 @@ app.use("/contributors", contributorRoutes);
 
 // Configurer les routes pour les tâches
 app.use('/consultations', consultationsRoutes);
-app.use('/projects', projectsRoutes);
+app.use('/services', servicesRoutes);
 
 app.use('/tasks', taskRoutes);
 
