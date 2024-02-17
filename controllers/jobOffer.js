@@ -25,7 +25,7 @@ exports.getAllJobOffers = async (req, res) => {
 // Controller to get a single job offer by ID
 exports.getJobOfferById = async (req, res) => {
   try {
-    const jobOffer = await JobOffer.findById(req.params.id);
+    const jobOffer = await JobOffer.findById(req.params.jobId);
     if (!jobOffer) {
       return res.status(404).json({ error: 'Job Offer not found' });
     }
@@ -39,7 +39,7 @@ exports.getJobOfferById = async (req, res) => {
 exports.updateJobOffer = async (req, res) => {
   try {
     const jobOffer = await JobOffer.findByIdAndUpdate(
-      req.params.id,
+      req.params.jobId,
       req.body,
       { new: true }
     );
@@ -55,7 +55,7 @@ exports.updateJobOffer = async (req, res) => {
 // Controller to delete a job offer by ID
 exports.deleteJobOffer = async (req, res) => {
   try {
-    const jobOffer = await JobOffer.findByIdAndDelete(req.params.id);
+    const jobOffer = await JobOffer.findByIdAndDelete(req.params.jobId);
     if (!jobOffer) {
       return res.status(404).json({ error: 'Job Offer not found' });
     }

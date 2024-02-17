@@ -8,7 +8,7 @@ router.post('/add', JobController.createJobOffer);
 
 router.get('/get', JobController.getAllJobOffers);
 
-router.get('/:jobId', JobController.getJobOfferById);
+router.get('/get/:jobId', JobController.getJobOfferById);
 
 router.put('/update/:jobId', JobController.updateJobOffer);
 
