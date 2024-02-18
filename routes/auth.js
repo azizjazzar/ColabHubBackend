@@ -17,7 +17,7 @@ router.route("/user/delete/:email").delete(remove);
 router.route("/login").post(login);
 router.route("/logout").post(logout);
 router.route("/logout").post(logout);
-router.route("/userid").get(getById);
+router.route("/userid/:id").get(getById);
 //I
 router.route("/updateI/:email").put(updateI);
 router.route("/usersI").get(usersI);
