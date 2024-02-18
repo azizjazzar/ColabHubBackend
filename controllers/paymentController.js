@@ -1,8 +1,5 @@
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
-const stripe =require("stripe")(process.env.STRIPE_SECRET);
-
-
-// Créer une session de paiement avec Stripe
 exports.createCheckoutSession = async (req, res) => {
     const { amount } = req.body;
 
@@ -12,18 +9,18 @@ exports.createCheckoutSession = async (req, res) => {
             line_items: [
                 {
                     price_data: {
-                      currency: 'usd',
+                        currency: 'usd',
                         product_data: {
                             name: 'Consultation',
                         },
-                        unit_amount: amount,
+                        unit_amount: amount * 100, // Montant en cents
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
-            success_url: 'http://localhost:3000/success', // URL à rediriger après un paiement réussi
-            cancel_url: 'http://localhost:3000/cancel', // URL à rediriger après l'annulation du paiement
+            success_url: 'https://colabhub.onrender.com/do-a-quick-consultation', // Ajouter une URL de redirection pour le succès
+            cancel_url: 'http://localhost:3000/cancel',
         });
 
         res.json({ sessionId: session.id });
