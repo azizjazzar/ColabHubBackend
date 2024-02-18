@@ -19,7 +19,7 @@ exports.createCheckoutSession = async (req, res) => {
                 },
             ],
             mode: 'payment',
-            success_url: 'https://colabhub.onrender.com/do-a-quick-consultation', // Ajouter une URL de redirection pour le succès
+            success_url: 'http://localhost:5173/do-a-quick-consultation', // Ajouter une URL de redirection pour le succès
             cancel_url: 'http://localhost:3000/cancel',
         });
 
