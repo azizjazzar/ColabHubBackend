@@ -21,11 +21,11 @@ exports.getAllServices = async (req, res) => {
 
 exports.getServiceById = async (req, res) => {
     try {
-        const Service = await Service.findById(req.params.id);
-        if (!Service) {
+        const service = await Service.findById(req.params.id); // Utilisez le modèle Service correctement
+        if (!service) {
             return res.status(404).json({ message: "Service not found" });
         }
-        res.json(Service);
+        res.json(service);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

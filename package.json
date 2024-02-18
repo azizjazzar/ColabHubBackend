@@ -25,7 +25,7 @@
     "mongoose-sequence": "^5.3.1",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.3",
-    "stripe": "^14.8.0",
+    "stripe": "^14.17.0",
     "twilio": "^4.20.0"
   }
 }
