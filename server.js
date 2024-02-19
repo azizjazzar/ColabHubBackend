@@ -10,6 +10,7 @@ const app = express();
 const consultationsRoutes = require('./routes/consultations');
 const servicesRoutes = require('./routes/services');
 const paymentRoutes = require('./routes/payment');
+const blogRoutes = require('./routes/blog');
 connectDB();
 
 app.use(express.json());
@@ -38,6 +39,10 @@ app.use('/services', servicesRoutes);
 
 app.use('/tasks', taskRoutes);
 app.use('/payment', paymentRoutes);
+
+// Blog routes
+app.use('/blogs', blogRoutes);
+
 
 
 app.listen(3000, '0.0.0.0', function() {
