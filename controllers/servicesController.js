@@ -1,6 +1,7 @@
 const Service = require('../models/Service');
+// Importer la configuration de Multer
 
-exports.createService = async (req, res) => {
+/*exports.createService = async (req, res) => {
     try {
         const newService = new Service(req.body);
         const savedService = await newService.save();
@@ -8,7 +9,30 @@ exports.createService = async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
+};*/
+
+exports.createService = async (req, res) => {
+    try {
+        const newService = new Service({
+            freelancerId: req.body.freelancerId,
+            deliveryTime: req.body.deliveryTime,
+            domaineExpertise: req.body.domaineExpertise,
+            title: req.body.title,
+            description: req.body.description,
+            pricing: {
+                starter: req.body.pricing.starter,
+                standard: req.body.pricing.standard,
+                advanced: req.body.pricing.advanced
+            },
+            images: [req.file.path] // Utilisez req.file pour obtenir le chemin de l'image téléchargée, et stockez-le dans un tableau
+        });
+        const savedService = await newService.save();
+        res.status(201).json(savedService);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
 };
+
 
 exports.getAllServices = async (req, res) => {
     try {
@@ -69,5 +93,16 @@ exports.purchaseService = async (req, res) => {
         res.json({ message: "Service purchased successfully" });
     } catch (err) {
         res.status(400).json({ message: err.message });
+    }
+};
+
+
+exports.getServicesByDomain = async (req, res) => {
+    try {
+        const domain = req.params.domain; // Récupérez le domaine d'expertise à partir des paramètres de la requête
+        const services = await Service.find({ domaineExpertise: domain }); // Recherchez les services correspondant au domaine d'expertise spécifié
+        res.json(services); // Renvoyer les services trouvés en réponse
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
