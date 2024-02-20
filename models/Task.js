@@ -17,14 +17,7 @@ const TaskSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  contribution: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Contribution",
-  },
-  Contributor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "contributor",
-  },
+
   
 });
 

@@ -1,6 +1,4 @@
 const taskRoutes = require('./routes/Task');
-const contributorRoutes = require('./routes/contributorRoutes');
-const contributionRoutes = require('./routes/ContributionRoutes');
 require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const connectDB = require("./config/db");
@@ -27,18 +25,13 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", require("./routes/auth"));
 
-// Configurer les routes pour les contributions
-app.use("/contributions", contributionRoutes);
 
-// Configurer les routes pour les contributeurs
-app.use("/contributors", contributorRoutes);
-
-// Configurer les routes pour les tâches
 app.use('/consultations', consultationsRoutes);
 app.use('/services', servicesRoutes);
-
-app.use('/tasks', taskRoutes);
 app.use('/payment', paymentRoutes);
+
+//route task 
+app.use('/tasks', taskRoutes);
 
 // Blog routes
 app.use('/blogs', blogRoutes);
