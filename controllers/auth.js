@@ -275,6 +275,25 @@ exports.logout = async (req, res, next) => {
     res.status(400).json({ err });
   }
 };
+exports.updatePicture = async (req, res, next) => {
+  try {
+    const { email } = req.params;
+    const { picture } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    user.picture = picture;
+    const updatedUser = await user.save();
+
+    res.status(200).json({ success: true, message: "User picture updated successfully", user: updatedUser });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
  exports.getByEmailI = async (req, res, next) => {
     const { email } = req.params;
     try {
