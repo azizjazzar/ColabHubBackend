@@ -292,6 +292,31 @@ exports.updatePicture = async (req, res, next) => {
     next(error);
   }
 };
+exports.getImageByEmail = async (req, res, next) => {
+  const { email } = req.params;
+
+  try {
+    // Recherche de l'utilisateur par son email
+    const user = await User.findOne({ email });
+
+    // Vérification si l'utilisateur existe
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found by email" });
+    }
+
+    // Vérification si l'utilisateur a une image
+    if (!user.picture) {
+      return res.status(404).json({ success: false, message: "User has no picture" });
+    }
+
+    // Renvoi de l'image
+    res.set('Content-Type', user.picture.contentType);
+    res.send(user.picture.data);
+  } catch (error) {
+    // Gestion des erreurs
+    next(error);
+  }
+};
 
 
  exports.getByEmailI = async (req, res, next) => {
