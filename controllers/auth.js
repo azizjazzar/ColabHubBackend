@@ -321,11 +321,10 @@ exports.getImageByEmail = async (req, res, next) => {
 
     // Renvoi de l'image
     res.set('Content-Type', user.picture.contentType);
-    res.send(user.picture.data);
+    res.sendFile(user.picture.data);
   } catch (error) {
     // Gestion des erreurs
-    console.error('Error fetching user image by email:', error);
-    res.status(500).json({ success: false, message: 'Error fetching user image by email', error: error.message });
+    next(error);
   }
 };
 
