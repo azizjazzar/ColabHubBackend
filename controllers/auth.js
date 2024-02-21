@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Nombre de rounds pour le salage du mot de passe
 const jwt = require('jsonwebtoken');
-
+const path = require('path');
 const nodemailer = require('nodemailer');
 const activeRefreshTokens = {};
 
@@ -302,31 +302,30 @@ exports.updatePicture = async (req, res, next) => {
   }
 };
 
+
 exports.getImageByEmail = async (req, res, next) => {
   const { email } = req.params;
 
   try {
-    // Recherche de l'utilisateur par son email
     const user = await User.findOne({ email });
 
-    // Vérification si l'utilisateur existe
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found by email" });
     }
 
-    // Vérification si l'utilisateur a une image
     if (!user.picture) {
       return res.status(404).json({ success: false, message: "User has no picture" });
     }
 
-    // Renvoi de l'image
-    res.set('Content-Type', user.picture.contentType);
-    res.sendFile(user.picture.data);
+
+    const imagePath = path.join(user.picture);
+
+    res.sendFile(imagePath);
   } catch (error) {
-    // Gestion des erreurs
     next(error);
   }
 };
+
 
 
 
