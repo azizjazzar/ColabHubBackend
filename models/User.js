@@ -29,9 +29,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   picture: {
-    type: String,
+    data: Buffer, 
+    contentType: String,
   },
-
 });
 
 UserSchema.pre('save', async function (next) {
