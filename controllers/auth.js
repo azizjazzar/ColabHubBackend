@@ -314,9 +314,11 @@ exports.getImageByEmail = async (req, res, next) => {
     res.send(user.picture.data);
   } catch (error) {
     // Gestion des erreurs
-    next(error);
+    console.error('Error fetching user image by email:', error);
+    res.status(500).json({ success: false, message: 'Error fetching user image by email', error: error.message });
   }
 };
+
 
 
  exports.getByEmailI = async (req, res, next) => {
