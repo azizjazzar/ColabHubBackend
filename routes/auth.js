@@ -1,18 +1,31 @@
 const express = require("express");
 const router = express.Router();
+const multerUpload = require("../middleware/multer-config.js");
 const {
-  register, users, getByEmail, remove, update, sendmail, login, logout, getById, refreshToken, updateI, usersI, getByEmailI, registerI, comparePasswords, updatePicture,getImageByEmail
+  register,
+  users,
+  getByEmail,
+  remove,
+  update,
+  sendmail,
+  login,
+  logout,
+  getById,
+  refreshToken,
+  updateI,
+  usersI,
+  getByEmailI,
+  registerI,
+  comparePasswords,
+  updatePicture,
+  getImageByEmail // Importez la fonction getImageByEmail
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
-const { verify } = require("crypto");
 
 router.route("/register").post(register);
 router.route("/update/:email").put(update);
-
-// Assurez-vous que verifyTokenMiddleware est une fonction middleware
-router.route("/updatePicture/:email").put(updatePicture);
-router.route("/image/:email").get(getImageByEmail);
-router.route("/users").get( users);
+router.route("/updatePicture/:email").put(multerUpload, updatePicture); // Utilisez Multer pour gérer le téléversement de l'image
+router.route("/users").get(users);
 router.route("/user/:email").get(getByEmail);
 router.route("/email/:email/:code").get(sendmail);
 router.route("/user/delete/:email").delete(remove);
@@ -23,8 +36,9 @@ router.route("/userid/:id").get(getById);
 //I
 router.route("/updateI/:email").put(updateI);
 router.route("/usersI").get(usersI);
-router.route("/userI/:email").get(getByEmailI); 
+router.route("/userI/:email").get(getByEmailI);
 router.route("/registerI").post(registerI);
 router.route("/comparePasswords").post(comparePasswords);
+router.route("/image/:email").get(getImageByEmail); // Ajoutez la route pour récupérer l'image par email
 
 module.exports = router;
