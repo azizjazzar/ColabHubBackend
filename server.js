@@ -14,10 +14,12 @@ connectDB();
 app.use(express.json());
 app.set('views', './public');
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Utilisation de CORS middleware
 app.use(cors());
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -25,19 +27,18 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", require("./routes/auth"));
 
-
 app.use('/consultations', consultationsRoutes);
 app.use('/services', servicesRoutes);
 app.use('/payment', paymentRoutes);
 
-//route task 
+// Route for tasks
 app.use('/tasks', taskRoutes);
 
 // Blog routes
 app.use('/blogs', blogRoutes);
 
-
-
-app.listen(3000, '0.0.0.0', function() {
-  console.log('Listening to port: ' + 3000);
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
