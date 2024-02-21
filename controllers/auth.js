@@ -317,10 +317,8 @@ exports.getImageByEmail = async (req, res, next) => {
       return res.status(404).json({ success: false, message: "User has no picture" });
     }
 
-
-    const imagePath = path.join(user.picture);
-
-    res.sendFile(imagePath);
+    // Envoi de l'image directement en utilisant le chemin stocké dans user.picture
+    res.sendFile(user.picture);
   } catch (error) {
     next(error);
   }
