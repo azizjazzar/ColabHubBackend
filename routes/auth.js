@@ -18,13 +18,14 @@ const {
   registerI,
   comparePasswords,
   updatePicture,
+  getImageById,
   getImageByEmail // Importez la fonction getImageByEmail
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
 router.route("/register").post(register);
 router.route("/update/:email").put(update);
-router.route("/updatePicture/:email").put(multerUpload, updatePicture); // Utilisez Multer pour gérer le téléversement de l'image
+router.route("/updatePicture/:email").put(multerUpload, updatePicture); 
 router.route("/users").get(users);
 router.route("/user/:email").get(getByEmail);
 router.route("/email/:email/:code").get(sendmail);
@@ -39,6 +40,7 @@ router.route("/usersI").get(usersI);
 router.route("/userI/:email").get(getByEmailI);
 router.route("/registerI").post(registerI);
 router.route("/comparePasswords").post(comparePasswords);
-router.route("/image/:email").get(getImageByEmail); // Ajoutez la route pour récupérer l'image par email
+router.route("/image/:email").get(getImageByEmail);
+router.route("/imagebyid/:id").get(getImageById);
 
 module.exports = router;
