@@ -324,6 +324,26 @@ exports.getImageByEmail = async (req, res, next) => {
   }
 };
 
+exports.getImageById = async (req, res, next) => {
+  const { id } = req.params; 
+
+  try {
+    const user = await User.findById(id); 
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found by id" });
+    }
+
+    if (!user.picture) {
+      return res.status(404).json({ success: false, message: "User has no picture" });
+    }
+
+    // Envoyer l'image directement en utilisant le chemin stocké dans user.picture
+    res.sendFile(user.picture);
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 
