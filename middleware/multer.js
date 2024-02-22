@@ -8,8 +8,9 @@ const storage = diskStorage({
     callback(null, join(__dirname, "../public/images"));
   },
   filename: (req, file, callback) => {
-    // Utiliser le nom de fichier d'origine sans aucune modification
-    callback(null, file.originalname);
+    const uniqueFilename = 'uploaded_image'; // Nom de fichier statique
+    const extension = file.originalname.split('.').pop(); // Récupérer l'extension du fichier
+    callback(null, uniqueFilename + "." + extension);
   },
 });
 
