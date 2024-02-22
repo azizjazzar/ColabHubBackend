@@ -1,6 +1,6 @@
 const multer = require("multer");
 const { diskStorage } = multer;
-const { join, dirname } = require("path");
+const { join, dirname, basename } = require("path");
 
 const storage = diskStorage({
   destination: (req, file, callback) => {
@@ -8,7 +8,8 @@ const storage = diskStorage({
     callback(null, join(__dirname, "../public/images"));
   },
   filename: (req, file, callback) => {
-    callback(null, file.originalname);
+    const filename = basename(file.originalname);
+    callback(null, filename);
   },
 });
 
