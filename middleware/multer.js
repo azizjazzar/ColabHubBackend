@@ -8,7 +8,7 @@ const storage = diskStorage({
     callback(null, join(__dirname, "../public/images"));
   },
   filename: (req, file, callback) => {
-    callback(null, file.originalname); // Utiliser le nom d'origine du fichier
+    callback(null, file.originalname);
   },
 });
 
