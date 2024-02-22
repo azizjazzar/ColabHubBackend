@@ -9,6 +9,7 @@ const consultationsRoutes = require('./routes/consultations');
 const servicesRoutes = require('./routes/services');
 const paymentRoutes = require('./routes/payment');
 const blogRoutes = require('./routes/blog');
+const jobRoutes = require('./routes/jobOfferRoutes');
 connectDB();
 
 app.use(express.json());
@@ -36,6 +37,9 @@ app.use('/tasks', taskRoutes);
 
 // Blog routes
 app.use('/blogs', blogRoutes);
+
+//jobs
+app.use('/jobs', jobRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;

@@ -17,4 +17,7 @@ router.put('/:taskId', taskController.updateTaskById);
 // Delete a task by ID
 router.delete('/:taskId', taskController.deleteTaskById);
 
+// Route pour lire les tâches par ID de projet
+router.get('/project/:projectId', taskController.getTasksByProjectId);
+
 module.exports = router;

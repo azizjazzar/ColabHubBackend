@@ -11,6 +11,27 @@ exports.createTask = async (req, res) => {
   }
 };
 
+// Fonction pour lire les tâches par ID de projet
+exports.getTasksByProjectId = async (req, res, next) => {
+  try {
+    const projectId = req.params.projectId;
+
+    // Vérifiez si l'ID du projet est fourni dans la requête
+    if (!projectId) {
+      return res.status(400).json({ error: 'ID du projet non fourni' });
+    }
+
+    // Requête pour trouver les tâches liées à l'ID du projet
+    const tasks = await Task.find({ projectId });
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des tâches par ID de projet :', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+};
+
+
 // Contrôleur pour récupérer toutes les tâches
 exports.getAllTasks = async (req, res) => {
   try {
