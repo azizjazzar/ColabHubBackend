@@ -279,19 +279,20 @@ exports.updatePicture = async (req, res, next) => {
   try {
     const { email } = req.params;
     
-    // Vérifiez si le nom de l'image a été fourni
-    if (!req.body.picture) {
-      return res.status(400).json({ success: false, message: "No image name provided" });
+    // Vérifiez si un fichier a été téléchargé avec multer
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No image uploaded" });
     }
 
-    const picture = req.body.picture; // Obtenez le nom de l'image fourni
+    // Obtenez le nom du fichier d'image téléchargé
+    const picture = req.file.originalname;
 
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
     
-    // Mettez à jour le champ picture avec le nom de l'image fourni
+    // Mettez à jour le champ picture avec le nom de l'image téléchargée
     user.picture = picture;
     const updatedUser = await user.save();
 
