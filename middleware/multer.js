@@ -14,10 +14,10 @@ const storage = diskStorage({
     callback(null, join(__dirname, "../public/images"));
   },
   filename: (req, file, callback) => {
-    // Générez un nom de fichier unique sans le timestamp
+    // Générer un nom de fichier unique sans le timestamp et l'extension supplémentaire
     const extension = MIME_TYPES[file.mimetype];
-    const nomFichier = file.originalname.split(" ").join("_");
-    callback(null, nomFichier + "." + extension);
+    const nomFichierSansExtension = file.originalname.split(" ").join("_").split(".").slice(0, -1).join(".");
+    callback(null, nomFichierSansExtension + "_" + Date.now() + "." + extension);
   },
 });
 
