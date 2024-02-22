@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const multerUpload = require("../middleware/multer-config.js");
+const multerUpload = require("../middleware/multer.js");
 const {
   register,
   users,
