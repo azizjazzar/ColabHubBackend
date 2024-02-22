@@ -279,20 +279,19 @@ exports.updatePicture = async (req, res, next) => {
   try {
     const { email } = req.params;
     
-    // Vérifiez si une image a été téléchargée avec multer
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: "No image uploaded" });
+    // Vérifiez si le nom de l'image a été fourni
+    if (!req.body.picture) {
+      return res.status(400).json({ success: false, message: "No image name provided" });
     }
 
-    // Obtenez le chemin d'accès ou l'URL de l'image téléchargée
-    const picture = req.file.path; // ou req.file.location si vous utilisez un service de stockage cloud comme AWS S3
+    const picture = req.body.picture; // Obtenez le nom de l'image fourni
 
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
     
-    // Mettez à jour le champ picture avec le chemin d'accès ou l'URL de l'image téléchargée
+    // Mettez à jour le champ picture avec le nom de l'image fourni
     user.picture = picture;
     const updatedUser = await user.save();
 
@@ -301,6 +300,7 @@ exports.updatePicture = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 exports.getImageByEmail = async (req, res, next) => {
