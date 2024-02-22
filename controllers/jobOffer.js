@@ -77,7 +77,7 @@ exports.getJobsForFreelancer = async (req, res) => {
     }
 
     // Requête pour trouver les offres d'emploi liées à l'ID du freelancer
-    const jobs = await JobOffer.getJobsForFreelancer(freelancerId);
+    const jobs = await JobOffer.find({ freelancersId: freelancerId }).exec();
 
     res.status(200).json(jobs);
   } catch (error) {

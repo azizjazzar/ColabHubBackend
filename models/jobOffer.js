@@ -30,16 +30,8 @@ const jobOfferSchema = new mongoose.Schema({
     country: String
   }
 });
-// Dans le fichier jobOffer.js (ou où vous avez défini votre schéma et modèle)
-jobOfferSchema.statics.getJobsForFreelancer = async function (freelancerId) {
-  try {
-    const jobs = await this.find({ freelancersId: freelancerId });
-    return jobs;
-  } catch (error) {
-    console.error(`Erreur lors de la récupération des offres d'emploi : ${error.message}`);
-    throw new Error('Erreur lors de la récupération des offres d\'emploi.');
-  }
-};
+
+
 const JobOffer = mongoose.model('JobOffer', jobOfferSchema);
 
 module.exports = JobOffer;
