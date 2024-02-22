@@ -64,22 +64,25 @@ exports.deleteJobOffer = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-// Fonction pour lire les tâches par ID de  user 
-exports.getJobByProjectId = async (req, res, next) => {
-  try {
-    const userId = req.params.userId;
 
-    // Vérifiez si l'ID du user est fourni dans la requête
-    if (!userId) {
-      return res.status(400).json({ error: 'user non fourni' });
+
+// Fonction pour récupérer toutes les offres d'emploi affectées à un freelancer
+exports.getJobsForFreelancer = async (req, res) => {
+  try {
+    const freelancerId = req.params.freelancerId;
+
+    // Vérifiez si l'ID du freelancer est fourni dans la requête
+    if (!freelancerId) {
+      return res.status(400).json({ error: 'Freelancer ID non fourni' });
     }
 
-    // Requête pour trouver les tâches liées à l'ID du user
-    const job = await jobOffer.find({ userId });
+    // Requête pour trouver les offres d'emploi liées à l'ID du freelancer
+    const jobs = await JobOffer.getJobsForFreelancer(freelancerId);
 
-    res.status(200).json(job);
+    res.status(200).json(jobs);
   } catch (error) {
-    console.error('Erreur lors de la récupération des tâches par ID de user :', error);
+    console.error('Erreur lors de la récupération des offres d\'emploi par ID de freelancer :', error);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 };
+
