@@ -64,3 +64,22 @@ exports.deleteJobOffer = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+// Fonction pour lire les tâches par ID de  user 
+exports.getJobByProjectId = async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+
+    // Vérifiez si l'ID du user est fourni dans la requête
+    if (!userId) {
+      return res.status(400).json({ error: 'user non fourni' });
+    }
+
+    // Requête pour trouver les tâches liées à l'ID du user
+    const job = await jobOffer.find({ userId });
+
+    res.status(200).json(job);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des tâches par ID de user :', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+};

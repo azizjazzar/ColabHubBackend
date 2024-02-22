@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const jobOfferSchema = new mongoose.Schema({
   title: { type: String, required: true },
+  userId:  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+},
   rate: { type: Number, required: true },
   expertiseLevel: { type: String, required: true },
   estimatedTime: { type: Number, required: true },
