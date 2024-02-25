@@ -93,3 +93,17 @@ exports.getCommentsByBlogId = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+exports.getBlogsByUser = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Assuming you get the userId from the request parameters
+        const blogs = await Blog.find({ userId: userId });
+
+        if (!blogs || blogs.length === 0) {
+            return res.status(404).json({ message: "Blogs not found for the specified user" });
+        }
+
+        res.json(blogs);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
