@@ -12,5 +12,7 @@ router.delete('/:id', blogController.deleteBlog);
 // Comment-related routes
 router.post('/:id/comments', blogController.addComment);
 router.get('/:id/comments', blogController.getCommentsByBlogId);
+// User-specific blogs route
+router.get('/user/:userId/blogs', blogController.getBlogsByUser);
 
 module.exports = router;
