@@ -10,6 +10,8 @@ const servicesRoutes = require('./routes/services');
 const paymentRoutes = require('./routes/payment');
 const blogRoutes = require('./routes/blog');
 const jobRoutes = require('./routes/jobOfferRoutes');
+const meetingRoutes= require('./routes/meeting');
+
 connectDB();
 
 app.use(express.json());
@@ -34,6 +36,9 @@ app.use('/payment', paymentRoutes);
 
 // Route for tasks
 app.use('/tasks', taskRoutes);
+
+// Route for meetings
+app.use('/meet', meetingRoutes);
 
 // Blog routes
 app.use('/blogs', blogRoutes);
