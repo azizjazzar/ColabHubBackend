@@ -1,6 +1,6 @@
 // jobOfferController.js
 const JobOffer = require('../models/jobOffer')
-
+const User = require("../models/User");
 // Controller to create a new job offer
 exports.createJobOffer = async (req, res) => {
   try {
@@ -21,6 +21,30 @@ exports.getAllJobOffers = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+exports.getAllFreelancerByJob = async (req, res) => {
+  try {
+    const jobOffer = await JobOffer.findById(req.params.jobId);
+    if (!jobOffer) {
+      return res.status(404).json({ error: 'Job Offer not found' });
+    }
+    let users= [];
+       // Itérer à travers le tableau de freelancers
+       for (const freelancerId of jobOffer.freelancersId) {
+       const  user = await User.findById(freelancerId);
+        if (user) {
+          users.push(user);
+        }
+      }
+      
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 // Controller to get a single job offer by ID
 exports.getJobOfferById = async (req, res) => {
@@ -66,7 +90,7 @@ exports.deleteJobOffer = async (req, res) => {
 };
 
 
-// Fonction pour récupérer toutes les offres d'emploi affectées à un freelancer
+// Fonction pour récupérer toutes les projets affectées à un freelancer
 exports.getJobsForFreelancer = async (req, res) => {
   try {
     const freelancerId = req.params.freelancerId;

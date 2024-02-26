@@ -4,7 +4,9 @@ const JobController = require('../controllers/jobOffer');
 
 
 router.post('/add', JobController.createJobOffer);
+ 
 
+router.get('/getFreelancersByJob/:jobId', JobController.getAllFreelancerByJob);
 
 router.get('/get', JobController.getAllJobOffers);
 
