@@ -17,6 +17,16 @@ const TaskSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  freelancerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  projectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'JobOffer',
+    required: true,
+  },
 
   
 });
