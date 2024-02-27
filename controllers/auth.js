@@ -139,31 +139,31 @@ exports.sendmail = async (req, res, next) => {
   }
 };
 
-// Function to send a welcome email
-/*
-const sendWelcomeEmail = async (userEmail, code) => {
+const sendWelcomeEmail = async (userEmail, message, clientName) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'azizjazz60@gmail.com',
-      pass: 'fyoamzqutrqsxmsu',
+      pass: 'zvnj ydbx gaut vwkn',
     },
   });
 
   const mailOptions = {
     from: 'azizjazz60@gmail.com',
     to: userEmail,
-    subject: 'Bienvenue sur Electrigo',    
-    text: `Cher utilisateur,\n\nBienvenue sur Electrigo ! Nous sommes ravis de vous accueillir. Votre code de vérification est le suivant : ${code}. Veuillez utiliser ce code pour finaliser le processus d'inscription.\n\nCordialement,\nL'équipe Electrigo`,  };
+    subject: 'Reclamation Client',    
+    text: `Hello, we just got a reclamation from our client ${clientName}. Here is the reclamation: ${message}`,
+  };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Welcome email sent to: ${userEmail} with verification code: ${code}`);
+    console.log('Email de réclamation envoyé avec succès.');
   } catch (error) {
-    console.error('Error sending welcome email:', error.message);
-    throw new Error('Error sending welcome email: ' + error.message);
+    console.error('Erreur lors de l\'envoi de l\'email de réclamation:', error.message);
+    throw new Error('Erreur lors de l\'envoi de l\'email de réclamation: ' + error.message);
   }
-};*/
+};
+
 const sendDeletionEmail = async (userEmail) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
