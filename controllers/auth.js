@@ -143,29 +143,9 @@ exports.sendmail = async (req, res, next) => {
 
 
 exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'azizjazz60@gmail.com',
-      pass: 'ygwa aydd mnln qzjf',
-    },
-  });
 
-  const mailOptions = {
-    from: 'azizjazz60@gmail.com',
-    to: 'jazzar.aziz@esprit.tn',
-    subject: 'Client Reclamation',
-    text: `Hello, we received a reclamation from our client ${clientName}.\n\nMessage: ${message}\n\nUser Email: ${userEmail}`,
-  };
-
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.response);
-    return { success: true, message: 'Email sent successfully' };
-  } catch (error) {
-    console.error('Error sending email:', error);
     return { success: false, message: 'Failed to send email. Please try again later.' };
-  }
+  
 };
 const sendDeletionEmail = async (userEmail) => {
   const transporter = nodemailer.createTransport({
