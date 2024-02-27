@@ -147,7 +147,7 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
     service: 'gmail',
     auth: {
       user: 'azizjazz60@gmail.com',
-      pass: 'zvnj ydbx gaut vwkn',
+      pass: 'ygwa aydd mnln qzjf',
     },
   });
 
