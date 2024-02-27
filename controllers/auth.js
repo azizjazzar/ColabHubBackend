@@ -159,12 +159,12 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
   try {
     await transporter.sendMail(mailOptions);
     console.log('Email de réclamation envoyé avec succès.');
+    return { success: true, message: 'Email sent successfully' }; // Renvoie un objet indiquant le succès de l'envoi de l'email
   } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'email de réclamation:', error.message);
     throw new Error('Erreur lors de l\'envoi de l\'email de réclamation: ' + error.message);
   }
 };
-
 const sendDeletionEmail = async (userEmail) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
