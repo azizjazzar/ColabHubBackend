@@ -145,7 +145,7 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
     service: 'gmail',
     auth: {
       user: 'azizjazz60@gmail.com',
-      pass: 'zvnj ydbx gaut vwkn',
+      pass: 'zvnj gaut vwkn',
     },
   });
 
@@ -162,9 +162,7 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
     return { success: true, message: 'Email sent successfully' }; // Renvoie un objet indiquant le succès de l'envoi de l'email
   } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'email de réclamation:', error.message);
-        return { success: false, message: error.message }; // Renvoie un objet indiquant le succès de l'envoi de l'email
-
-    throw new Error('Erreur lors de l\'envoi de l\'email de réclamation: ' + error.message);
+    return { success: false, message: error.message }; // Renvoie un objet indiquant l'échec de l'envoi de l'email
   }
 };
 const sendDeletionEmail = async (userEmail) => {
