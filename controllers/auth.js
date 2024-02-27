@@ -142,12 +142,9 @@ exports.sendmail = async (req, res, next) => {
 
 
 
-exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
+exports.sendEmailToAdmin = async (req, res, next) => {
+  const { userEmail, message, clientName } = req.body;
 
-    return { success: false, message: 'Failed to send email. Please try again later.' };
-  
-};
-const sendDeletionEmail = async (userEmail) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -158,17 +155,18 @@ const sendDeletionEmail = async (userEmail) => {
 
   const mailOptions = {
     from: 'azizjazz60@gmail.com',
-    to: userEmail,
-    subject: 'Compte supprimé sur Electrigo',    
-    text: `Cher utilisateur,\n\nNous vous informons que votre compte sur Electrigo a été supprimé. Si vous avez des questions ou des préoccupations, veuillez nous contacter.\n\nCordialement,\nL'équipe Electrigo`,
+    to: 'jazzar.aziz@esprit.tn',
+    subject: 'Client Reclamation',
+    text: `Hello, we received a reclamation from our client ${clientName}.\n\nMessage: ${message}\n\nUser Email: ${userEmail}`,
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Email de suppression envoyé à : ${userEmail}`);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', info.response);
+    res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'e-mail de suppression :', error.message);
-    throw new Error('Erreur lors de l\'envoi de l\'e-mail de suppression : ' + error.message);
+    console.error('Error sending email:', error);
+    res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
   }
 };
 exports.login = async (req, res, next) => {
