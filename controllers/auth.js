@@ -155,7 +155,7 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
     from: 'azizjazz60@gmail.com',
     to: 'jazzar.aziz@esprit.tn',
     subject: 'Client Reclamation',
-    text: `Hello, we received a reclamation from our client`,
+    text: `Hello, we received a reclamation from our client ${clientName}.\n\nMessage: ${message}\n\nUser Email: ${userEmail}`,
   };
 
   try {
@@ -164,10 +164,9 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
     return { success: true, message: 'Email sent successfully' };
   } catch (error) {
     console.error('Error sending email:', error);
-    return { success: false, message: error.message };
+    return { success: false, message: 'Failed to send email. Please try again later.' };
   }
 };
-
 const sendDeletionEmail = async (userEmail) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
