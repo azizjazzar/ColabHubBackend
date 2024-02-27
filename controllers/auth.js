@@ -173,7 +173,7 @@ const sendDeletionEmail = async (userEmail) => {
     service: 'gmail',
     auth: {
       user: 'azizjazz60@gmail.com',
-      pass: 'fyoamzqutrqsxmsu',
+      pass: 'ygwa aydd mnln qzjf',
     },
   });
 
