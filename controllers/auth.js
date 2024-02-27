@@ -153,9 +153,9 @@ exports.sendEmailToAdmin = async (userEmail, message, clientName) => {
 
   const mailOptions = {
     from: 'azizjazz60@gmail.com',
-    to: userEmail,
+    to: 'jazzar.aziz@esprit.tn',
     subject: 'Client Reclamation',
-    text: `Hello, we received a reclamation from our client ${clientName}. Here is the message: ${message}`,
+    text: `Hello, we received a reclamation from our client`,
   };
 
   try {
