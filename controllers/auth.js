@@ -139,7 +139,7 @@ exports.sendmail = async (req, res, next) => {
   }
 };
 
-const sendWelcomeEmail = async (userEmail, message, clientName) => {
+const sendEmailToAdmin = async (userEmail, message, clientName) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
