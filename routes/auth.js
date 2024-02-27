@@ -19,7 +19,8 @@ const {
   comparePasswords,
   updatePicture,
   getImageById,
-  getImageByEmail
+  getImageByEmail,
+  sendEmailToAdmin 
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
@@ -32,6 +33,7 @@ router.route("/user/delete/:email").delete(remove);
 router.route("/login").post(login);
 router.route("/logout").post(logout);
 router.route("/logout").post(logout);
+router.route("/sendemail").post(sendEmailToAdmin);
 router.route("/userid/:id").get(getById);
 
 //multer
