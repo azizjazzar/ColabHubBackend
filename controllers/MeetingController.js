@@ -1,6 +1,43 @@
 // MeetingController.js
 const Meeting = require('../models/meeting');
 
+
+
+
+exports.chatgpt = async (req, res, next) => {
+  const { transcribedText } = req.body;
+
+  try {
+    const openaiResponse = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      {
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: 'You are a helpful assistant.' },
+          {
+            role: 'user',
+            content: `I will give you a text speech about the user in the meeting and you're gonna give me mood statistics for each time point where the mood can be (happy, sad, nervous, excited), and I want you to format it like this: [(the time), (mood),(the time), (mood) ...]. This is the text: ${transcribedText}`,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 
+        },
+      }
+    );
+
+    const answer = openaiResponse.data.choices[0].message.content;
+
+    res.status(200).json({ answer });
+  } catch (error) {
+    console.error("Erreur lors de la demande à l'API OpenAI:", error);
+    res.status(500).json({ error: "Erreur lors de la demande à l'API OpenAI" });
+  }
+};
+
+
+
 exports.createMeeting = async (req, res) => {
   try {
     const newMeeting = new Meeting(req.body);
