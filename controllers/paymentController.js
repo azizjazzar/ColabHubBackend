@@ -31,15 +31,7 @@ exports.createCheckoutSession = async (req, res) => {
 };
 
 exports.stripeWebhook = async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
-
-    try {
-        // Parse the raw request body as JSON
-        const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-        console.log('Webhook event:', event);
-
-        // Handle the event
+    const event = req.body
         switch (event.type) {
             case 'payment_intent.requires_action':
                 // Define and call a function to handle the payment_intent.requires_action event
@@ -47,17 +39,10 @@ exports.stripeWebhook = async (req, res) => {
             case 'payment_intent.succeeded':
                 const paymentIntentSucceeded = event.data.object;
                 console.log('Payment intent succeeded:', paymentIntentSucceeded);
-                // Perform actions after a successful payment
                 break;
             // Handle other event types
             default:
                 console.log(`Unhandled event type ${event.type}`);
         }
-
-        // Respond to the webhook with a 200 status to indicate that the event was received successfully
         res.status(200).end();
-    } catch (err) {
-        console.error('Error verifying webhook signature:', err);
-        res.status(400).send(`Webhook error: ${err.message}`);
-    }
 };
