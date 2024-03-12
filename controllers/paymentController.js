@@ -19,15 +19,11 @@ exports.createCheckoutSession = async (req, res) => {
                 },
             ],
             mode: 'payment',
-            success_url: 'http://localhost:5173/do-a-quick-consultation', 
+            success_url: 'http://localhost:5173/do-a-quick-consultation', // Ajouter une URL de redirection pour le succès
             cancel_url: 'http://localhost:3000/cancel',
         });
 
-        if (session.payment_status === 'paid') {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false });
-        }
+        res.json({  sessionId: session.id });
     } catch (error) {
         console.error('Erreur lors de la création de la session de paiement :', error);
         res.status(500).json({ success: false, error: error.message });
