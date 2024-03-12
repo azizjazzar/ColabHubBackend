@@ -3,6 +3,7 @@ const router = express.Router();
 const MeetingController = require('../controllers/MeetingController');
 
 router.post('/add', MeetingController.createMeeting);
+router.post('/add', MeetingController.chatgpt);
 router.get('/get', MeetingController.getAllMeetings);
 router.put('/update/:meetingId', MeetingController.updateMeeting);
 router.get('/getmeets/:freelancerId', MeetingController.getMeetForFreelancer);
