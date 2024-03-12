@@ -3,10 +3,12 @@ const Meeting = require('../models/Statistique');
 // Ajouter une statistique
 exports.addStatistique = async (req, res) => {
   try {
-    const { clientA, clientB, dateEnrg, token } = req.body;
+    const { clientA, clientB, dateEnrg, token,clientAID,clientBID } = req.body;
     const nouvelleStatistique = new Meeting({
       clientA: clientA,
       clientB: clientB,
+      clientAID : clientAID,
+      clientBID : clientBID,
       dateEnrg: dateEnrg,
       token: token
     });
@@ -48,11 +50,13 @@ exports.getStatistiqueById = async (req, res) => {
 // Mettre à jour une statistique par ID
 exports.updateStatistiqueById = async (req, res) => {
   const { id } = req.params;
-  const { clientA, clientB, dateEnrg, token } = req.body;
+  const { clientA, clientB, dateEnrg, token,clientAID,clientBID } = req.body;
   try {
     const statistique = await Meeting.findByIdAndUpdate(id, {
       clientA: clientA,
       clientB: clientB,
+      clientAID : clientAID,
+      clientBID : clientBID,
       dateEnrg: dateEnrg,
       token: token
     }, { new: true });

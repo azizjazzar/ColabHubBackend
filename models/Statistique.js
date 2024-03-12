@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
 const MeetingSchema = new mongoose.Schema({
-
+    clientAID: {
+        type: String,
+      },
+      clientBID: { 
+        type: String,
+      },
   clientA: {
     type: String,
   },
