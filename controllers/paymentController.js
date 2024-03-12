@@ -6,58 +6,52 @@ exports.createCheckoutSession = async (req, res) => {
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: 'Consultation',
-                        },
-                        unit_amount: amount * 100, // Montant en cents
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: 'Consultation',
                     },
-                    quantity: 1,
+                    unit_amount: amount * 100, // Amount in cents
                 },
-            ],
+                quantity: 1,
+            }],
             mode: 'payment',
-            success_url: 'http://localhost:5173/do-a-quick-consultation', // Ajouter une URL de redirection pour le succès
+            success_url: 'http://localhost:5173/do-a-quick-consultation',
             cancel_url: 'http://localhost:3000/cancel',
         });
 
         res.json({ sessionId: session.id });
     } catch (error) {
-        console.error('Erreur lors de la création de la session de paiement :', error);
+        console.error('Error creating payment session:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 };
 
 exports.stripeWebhook = async (req, res) => {
-    const rawBody = req.rawBody; // Assuming req.rawBody contains the raw request body received from Stripe
     const sig = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
     try {
-        const event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
+        const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+
         console.log('Webhook event:', event);
 
-        // Handle the event
         switch (event.type) {
             case 'payment_intent.requires_action':
-                // Define and call a function to handle the payment_intent.requires_action event
+                // Handle the payment_intent.requires_action event
                 break;
             case 'payment_intent.succeeded':
                 const paymentIntentSucceeded = event.data.object;
                 console.log('Payment intent succeeded:', paymentIntentSucceeded);
                 break;
-            // Handle other event types
             default:
                 console.log(`Unhandled event type ${event.type}`);
         }
 
-        // Respond with a 200 status to acknowledge receipt of the event
         res.status(200).end();
     } catch (err) {
         console.error('Error verifying webhook signature:', err);
         res.status(400).send(`Webhook error: ${err.message}`);
     }
 };
-
