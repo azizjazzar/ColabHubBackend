@@ -33,22 +33,31 @@ exports.stripeWebhook = async (req, res) => {
     let event;
 
     try {
-        // Vérifiez la signature du webhook
+        // Verify the webhook signature
         const signature = req.headers['stripe-signature'];
         event = stripe.webhooks.constructEvent(req.rawBody, signature, process.env.STRIPE_ENDPOINT_SECRET);
     } catch (err) {
         console.error('Webhook signature verification failed.', err);
-        return res.sendStatus(400);
+        return res.status(400).send('Webhook Error: Signature Verification Failed');
     }
 
-    // Gérez l'événement
-    if (event.type === 'checkout.session.completed') {
-        // Exécutez votre code ici après que le paiement a été effectué
-        const sessionId = event.data.object.id;
-        console.log(`Payment success for session ID: ${sessionId}`);
-        // Faites ce que vous avez à faire après un paiement réussi
+    // Handle the event
+    try {
+        switch (event.type) {
+            case 'checkout.session.completed':
+                // Execute your code here after payment has been successful
+                const sessionId = event.data.object.id;
+                console.log(`Payment success for session ID: ${sessionId}`);
+                // Perform actions after a successful payment
+                break;
+            default:
+                console.log(`Unhandled event type: ${event.type}`);
+        }
+    } catch (error) {
+        console.error('Error handling webhook event:', error.message);
+        return res.status(400).send('Webhook Error: Failed to process event');
     }
 
-    // Répondez au webhook
+    // Respond to the webhook
     res.json({ received: true });
 };
