@@ -11,6 +11,8 @@ const paymentRoutes = require('./routes/payment');
 const blogRoutes = require('./routes/blog');
 const jobRoutes = require('./routes/jobOfferRoutes');
 const meetingRoutes= require('./routes/meeting');
+const stats= require('./routes/statistiques');
+
 
 connectDB();
 
@@ -44,7 +46,8 @@ app.use('/meet', meetingRoutes);
 app.use('/blogs', blogRoutes);
 
 //jobs
-app.use('/jobs', jobRoutes);
+app.use('/', stats);
+
 
 // Start server
 const PORT = process.env.PORT || 3000;
