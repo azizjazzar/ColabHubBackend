@@ -35,29 +35,29 @@ exports.stripeWebhook = async (req, res) => {
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
     try {
-        const event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+        // Parse the raw request body as JSON
+        const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
         console.log('Webhook event:', event);
 
-        // Gérer l'événement
+        // Handle the event
         switch (event.type) {
             case 'payment_intent.requires_action':
-                // Définir et appeler une fonction pour gérer l'événement payment_intent.requires_action
+                // Define and call a function to handle the payment_intent.requires_action event
                 break;
             case 'payment_intent.succeeded':
                 const paymentIntentSucceeded = event.data.object;
-                console.log('Paiement réussi:', paymentIntentSucceeded);
-                // Faites ce que vous avez à faire après un paiement réussi
+                console.log('Payment intent succeeded:', paymentIntentSucceeded);
+                // Perform actions after a successful payment
                 break;
-            // Gérer les autres types d'événements
+            // Handle other event types
             default:
-                console.log(`Type d'événement non géré ${event.type}`);
+                console.log(`Unhandled event type ${event.type}`);
         }
 
-        // Répondre au webhook avec un statut 200 pour indiquer que l'événement a été reçu avec succès
+        // Respond to the webhook with a 200 status to indicate that the event was received successfully
         res.status(200).end();
     } catch (err) {
-        console.error('Erreur lors de la vérification de la signature du webhook :', err);
-        res.status(400).send(`Erreur du webhook : ${err.message}`);
+        console.error('Error verifying webhook signature:', err);
+        res.status(400).send(`Webhook error: ${err.message}`);
     }
 };
-
