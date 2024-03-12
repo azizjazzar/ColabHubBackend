@@ -12,6 +12,7 @@ const blogRoutes = require('./routes/blog');
 const jobRoutes = require('./routes/jobOfferRoutes');
 const meetingRoutes= require('./routes/meeting');
 const stats= require('./routes/statistiques');
+const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
 
 
 connectDB();
@@ -47,6 +48,22 @@ app.use('/blogs', blogRoutes);
 
 //jobs
 app.use('/', stats);
+app.get('/rtc/:channelName/:uid', (req, res) => {
+  const channelName = req.params.channelName;
+  const uid = req.params.uid;
+
+
+  const key = RtcTokenBuilder.buildTokenWithUid(
+    process.env.APP_ID,
+    process.env.APP_CERTIFICATE,
+    channelName,
+    uid,
+    RtcRole.PUBLISHER,
+    process.env.EXPIRATION
+  );
+
+  res.json({ token: key });
+});
 
 
 // Start server
