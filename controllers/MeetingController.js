@@ -17,7 +17,7 @@ exports.chatgpt = async (req, res, next) => {
           { role: 'system', content: 'You are a helpful assistant.' },
           {
             role: 'user',
-            content: `I will give you a text speech about the user in the meeting and you're gonna give me mood statistics for each time point where the mood can be (happy, sad, nervous, excited), and I want you to format it like this: [(the time), (mood),(the time), (mood) ...]. This is the text: ${transcribedText}`,
+            content: `give me some question to ask in this subject : ${transcribedText}`,
           },
         ],
       },
