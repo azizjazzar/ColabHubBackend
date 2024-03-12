@@ -31,9 +31,11 @@ exports.createCheckoutSession = async (req, res) => {
 exports.stripeWebhook = async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+    // Ensure the request's raw body is used for Stripe signature verification
+    const rawBody = req.body instanceof Buffer ? req.body : Buffer.from(JSON.stringify(req.body));
 
     try {
-        const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+        const event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
 
         console.log('Webhook event:', event);
 
