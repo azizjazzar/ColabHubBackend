@@ -30,34 +30,36 @@ exports.createCheckoutSession = async (req, res) => {
     }
 };
 exports.stripeWebhook = async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+
     let event;
 
     try {
-        // Verify the webhook signature
-        const signature = req.headers['stripe-signature'];
-        event = stripe.webhooks.constructEvent(req.rawBody, signature, process.env.STRIPE_ENDPOINT_SECRET);
+        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
         console.error('Webhook signature verification failed.', err);
-        return res.status(400).send('Webhook Error: Signature Verification Failed');
+        res.status(400).send(`Webhook Error: ${err.message}`);
+        return;
     }
 
     // Handle the event
-    try {
-        switch (event.type) {
-            case 'checkout.session.completed':
-                // Execute your code here after payment has been successful
-                const sessionId = event.data.object.id;
-                console.log(`Payment success for session ID: ${sessionId}`);
-                // Perform actions after a successful payment
-                break;
-            default:
-                console.log(`Unhandled event type: ${event.type}`);
-        }
-    } catch (error) {
-        console.error('Error handling webhook event:', error.message);
-        return res.status(400).send('Webhook Error: Failed to process event');
+    switch (event.type) {
+        case 'payment_intent.requires_action':
+            const paymentIntentRequiresAction = event.data.object;
+            // Define and call a function to handle the event payment_intent.requires_action
+            break;
+        case 'payment_intent.succeeded':
+            const paymentIntentSucceeded = event.data.object;
+            console.log('Payment intent succeeded:', paymentIntentSucceeded);
+            // Log any information you need when a payment intent succeeds
+            break;
+        // Handle other event types
+        default:
+            console.log(`Unhandled event type ${event.type}`);
     }
 
-    // Respond to the webhook
-    res.json({ received: true });
+    // Return a 200 response to acknowledge receipt of the event
+    res.send();
 };
+
