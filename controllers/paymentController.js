@@ -31,18 +31,39 @@ exports.createCheckoutSession = async (req, res) => {
 };
 
 exports.stripeWebhook = async (req, res) => {
-    const event = req.body
-        switch (event.type) {
-            case 'payment_intent.requires_action':
-                // Define and call a function to handle the payment_intent.requires_action event
-                break;
-            case 'payment_intent.succeeded':
-                const paymentIntentSucceeded = event.data.object;
-                console.log('Payment intent succeeded:', paymentIntentSucceeded);
-                break;
-            // Handle other event types
-            default:
-                console.log(`Unhandled event type ${event.type}`);
+    // Check if the request body is a string or a Buffer
+    if (typeof req.body === 'string' || req.body instanceof Buffer) {
+        // If the request body is already a string or a Buffer, use it directly
+        const event = req.body;
+        handleEvent(event, res);
+    } else {
+        // If the request body is a parsed JavaScript object, stringify it to get the raw body
+        const rawBody = JSON.stringify(req.body);
+        
+        try {
+            // Now construct the event using the raw body
+            const event = stripe.webhooks.constructEvent(rawBody, req.headers['stripe-signature'], process.env.STRIPE_ENDPOINT_SECRET);
+            handleEvent(event, res);
+        } catch (err) {
+            console.error('Error verifying webhook signature:', err);
+            res.status(400).send(`Webhook error: ${err.message}`);
         }
-        res.status(200).end();
+    }
 };
+
+function handleEvent(event, res) {
+    switch (event.type) {
+        case 'payment_intent.requires_action':
+            // Define and call a function to handle the payment_intent.requires_action event
+            break;
+        case 'payment_intent.succeeded':
+            const paymentIntentSucceeded = event.data.object;
+            console.log('Payment intent succeeded:', paymentIntentSucceeded);
+            break;
+        // Handle other event types
+        default:
+            console.log(`Unhandled event type ${event.type}`);
+    }
+    res.status(200).end();
+}
+
