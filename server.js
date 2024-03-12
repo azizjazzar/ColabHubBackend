@@ -48,10 +48,10 @@ app.use('/blogs', blogRoutes);
 
 //jobs
 app.use('/', stats);
-app.get('/rtc/:channelName/:uid', (req, res) => {
+app.get('/rtc/:channelName/:uid/:expiration', (req, res) => {
   const channelName = req.params.channelName;
   const uid = req.params.uid;
-
+  const  expiration=req.params.expiration;
 
   const key = RtcTokenBuilder.buildTokenWithUid(
     process.env.APP_ID,
@@ -59,7 +59,7 @@ app.get('/rtc/:channelName/:uid', (req, res) => {
     channelName,
     uid,
     RtcRole.PUBLISHER,
-    process.env.EXPIRATION
+    expiration
   );
 
   res.json({ token: key });
