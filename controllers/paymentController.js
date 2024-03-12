@@ -23,7 +23,7 @@ exports.createCheckoutSession = async (req, res) => {
             cancel_url: 'http://localhost:3000/cancel',
         });
 
-        res.json({ sessionId: session.id });
+        res.json({ success: true, sessionId: session.id });
     } catch (error) {
         console.error('Erreur lors de la création de la session de paiement :', error);
         res.status(500).json({ success: false, error: error.message });
