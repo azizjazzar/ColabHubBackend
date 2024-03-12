@@ -47,6 +47,9 @@ app.use('/meet', meetingRoutes);
 app.use('/blogs', blogRoutes);
 
 //jobs
+app.use('/jobs', jobRoutes);
+
+
 app.use('/', stats);
 app.get('/rtc/:channelName/:uid/:expiration', (req, res) => {
   const channelName = req.params.channelName;
