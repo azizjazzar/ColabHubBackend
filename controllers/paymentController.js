@@ -24,15 +24,16 @@ exports.createCheckoutSession = async (req, res) => {
         res.json({ sessionId: session.id });
     } catch (error) {
         console.error('Error creating payment session:', error);
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 
 exports.stripeWebhook = async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
-    // Ensure the request's raw body is used for Stripe signature verification
-    const rawBody = req.body instanceof Buffer ? req.body : Buffer.from(JSON.stringify(req.body));
+
+    // Assuming you've set up express to not parse the body and make rawBody available.
+    const rawBody = req.rawBody; // Ensure this is a Buffer
 
     try {
         const event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
@@ -41,7 +42,7 @@ exports.stripeWebhook = async (req, res) => {
 
         switch (event.type) {
             case 'payment_intent.requires_action':
-                // Handle the payment_intent.requires_action event
+                // Handle the event
                 break;
             case 'payment_intent.succeeded':
                 const paymentIntentSucceeded = event.data.object;
@@ -51,7 +52,7 @@ exports.stripeWebhook = async (req, res) => {
                 console.log(`Unhandled event type ${event.type}`);
         }
 
-        res.status(200).end();
+        res.status(200).send();
     } catch (err) {
         console.error('Error verifying webhook signature:', err);
         res.status(400).send(`Webhook error: ${err.message}`);
