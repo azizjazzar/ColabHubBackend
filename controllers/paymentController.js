@@ -60,3 +60,4 @@ exports.stripeWebhook = async (req, res) => {
         res.status(400).send(`Erreur du webhook : ${err.message}`);
     }
 };
+
