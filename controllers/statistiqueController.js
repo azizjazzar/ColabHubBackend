@@ -21,7 +21,17 @@ exports.addStatistique = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de l\'ajout de la statistique' });
   }
 };
-
+exports.isClientAEmpty = async (req, res) => {
+  const { token, channel } = req.query;
+  try {
+    const statistique = await Meeting.findOne({ token, channel });
+    const isClientAEmpty = !statistique || !statistique.clientA;
+    res.json(isClientAEmpty);
+  } catch (error) {
+    console.error('Error checking if clientA is empty:', error);
+    res.status(500).json({ error: 'Error checking if clientA is empty' });
+  }
+};
 // Obtenir toutes les statistiques
 exports.getAllStatistiques = async (req, res) => {
   try {
