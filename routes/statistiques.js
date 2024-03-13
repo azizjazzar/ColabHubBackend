@@ -13,7 +13,7 @@ router.get('/stats/:id', MeetingController.getStatistiqueById);
 
 // Mettre à jour une statistique par ID
 router.put('/stats/:id', MeetingController.updateStatistiqueById);
-
+router.get('/stats/check-client-a', MeetingController.isClientAEmpty);
 // Supprimer une statistique par ID
 router.delete('/stats/:id', MeetingController.deleteStatistiqueById);
 
