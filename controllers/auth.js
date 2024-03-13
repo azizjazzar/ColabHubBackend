@@ -7,6 +7,33 @@ const nodemailer = require('nodemailer');
 const activeRefreshTokens = {};
 const axios = require('axios');
 
+exports.sendEmail = async (req, res, next) => {
+    const { masteremail, message, clientemail, meetingURL } = req.body;
+  
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'azizjazz60@gmail.com',
+        pass: 'ygwa aydd mnln qzjf',
+      },
+    });
+  
+    const mailOptions = {
+      from: 'azizjazz60@gmail.com',
+      to: `${masteremail}, ${clientemail}`, // Include both email addresses separated by commas
+      subject: 'Invitation to Meeting',
+      text: `Hello,\n\nYou are invited to a meeting. Here is  the following link to join:\n\n${meetingURL}\n\n${message}`,
+    };
+  
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully:', info.response);
+      res.status(200).json({ success: true, message: 'Email sent successfully' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
+    }
+  };
 
 // Create operation
 exports.register = async (req, res, next) => {
