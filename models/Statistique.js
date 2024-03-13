@@ -19,6 +19,9 @@ const MeetingSchema = new mongoose.Schema({
   token: {
     type: String,
   } , 
+channel:{
+    type:String,
+},
 });
 
 const stats = mongoose.model("Statistique", MeetingSchema);
