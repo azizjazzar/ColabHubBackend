@@ -22,7 +22,7 @@ exports.addStatistique = async (req, res) => {
   }
 };
 exports.isClientAEmpty = async (req, res) => {
-  const { token, channel } = req.query;
+  const { token, channel } = req.body;
   try {
     const statistique = await Meeting.findOne({ token, channel });
     const isClientAEmpty = !statistique || !statistique.clientA;
