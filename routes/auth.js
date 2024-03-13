@@ -22,6 +22,7 @@ const {
   getImageByEmail,
   sendEmailToAdmin,
   chatgpt,
+  chatgptAnalyse,
   sendEmail
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
@@ -39,6 +40,8 @@ router.route("/sendemail").post(sendEmailToAdmin);
 router.route("/email").post(sendEmail);
 
 router.route("/chatgpt").post(chatgpt);
+router.route("/chatgptAnalyse").post(chatgptAnalyse);
+
 router.route("/userid/:id").get(getById);
 
 //multer
