@@ -56,7 +56,7 @@ app.get('/rtc/:channelName/:expiration', (req, res) => {
   const expiration = req.params.expiration;
 
   // Set uid to 0 to allow all users to join
-  const uid = 4100;
+  const uid = 0;
 
   const token = RtcTokenBuilder.buildTokenWithUid(
     process.env.APP_ID,
