@@ -22,7 +22,7 @@ exports.sendEmail = async (req, res, next) => {
       from: 'azizjazz60@gmail.com',
       to: `${masteremail}, ${clientemail}`, // Include both email addresses separated by commas
       subject: 'Invitation to Meeting',
-      text: `Hello,\n\nYou are invited to a meeting. Here is  the following link to join:\n\n${message}`,
+      text: `Hello,\n\nYou are invited to a meeting. Here is the link to join:\n\n${message}`,
     };
   
     try {
