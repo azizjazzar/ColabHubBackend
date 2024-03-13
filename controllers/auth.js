@@ -8,7 +8,7 @@ const activeRefreshTokens = {};
 const axios = require('axios');
 
 exports.sendEmail = async (req, res, next) => {
-    const { masteremail, message, clientemail, meetingURL } = req.body;
+    const { masteremail, message, clientemail } = req.body;
   
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -22,7 +22,7 @@ exports.sendEmail = async (req, res, next) => {
       from: 'azizjazz60@gmail.com',
       to: `${masteremail}, ${clientemail}`, // Include both email addresses separated by commas
       subject: 'Invitation to Meeting',
-      text: `Hello,\n\nYou are invited to a meeting. Here is  the following link to join:\n\n${meetingURL}\n\n${message}`,
+      text: `Hello,\n\nYou are invited to a meeting. Here is  the following link to join:\n\n${message}`,
     };
   
     try {
