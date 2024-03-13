@@ -10,6 +10,7 @@ router.get('/stats', MeetingController.getAllStatistiques);
 
 // Obtenir une statistique par ID
 router.get('/stats/:id', MeetingController.getStatistiqueById);
+router.get('/meeting-token-channel', MeetingController.getMeetingByTokenAndChannel);
 
 // Mettre à jour une statistique par ID
 router.put('/stats/:id', MeetingController.updateStatistiqueById);
