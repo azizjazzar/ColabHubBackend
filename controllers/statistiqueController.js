@@ -2,9 +2,14 @@ const Meeting = require('../models/Statistique');
 
 // Ajouter une statistique
 exports.getMeetingByTokenAndChannel = async (req, res) => {
-    const { channel } = req.params; 
+    const { channel } = req.query; // Si le canal est passé dans les paramètres de la requête
+
+    // Ou
+
+    const { channel } = req.body; // Si le canal est passé dans le corps de la requête
+
     try {
-        const meeting = await Statistique.findOne({ 'channel':channel });
+        const meeting = await Statistique.findOne({ channel });
         if (!meeting) {
             return res.status(404).json({ error: 'Meeting not found' });
         }
@@ -14,6 +19,7 @@ exports.getMeetingByTokenAndChannel = async (req, res) => {
         return res.status(500).json({ error: 'Error retrieving meeting' });
     }
 };
+
 
 exports.addStatistique = async (req, res) => {
   try {
