@@ -4,9 +4,8 @@ const MeetingController = require('../controllers/statistiqueController');
 
 // Ajouter une statistique
 router.post('/stats/add', MeetingController.addStatistique);
-
-// Obtenir toutes les statistiques
 router.get('/stats', MeetingController.getAllStatistiques);
+router.get('/stats-counts', MeetingController.getCountOfStatistiques);
 
 // Obtenir une statistique par ID
 router.get('/stats/:id', MeetingController.getStatistiqueById);
