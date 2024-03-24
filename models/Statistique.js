@@ -1,28 +1,27 @@
-const mongoose = require("mongoose");
-
 const MeetingSchema = new mongoose.Schema({
     clientAID: {
         type: String,
-      },
-      clientBID: { 
+    },
+    clientBID: { 
         type: String,
-      },
-  clientA: {
-    type: String,
-  },
-  clientB: { 
-    type: String,
-  },
-  dateEnrg: {
-    type: Date,
-  },
-  token: {
-    type: String,
-  } , 
-channel:{
-    type:String,
-},
+    },
+    clientA: {
+        type: String,
+    },
+    clientB: { 
+        type: String,
+    },
+    dateEnrg: {
+        type: Date,
+        default: Date.now 
+    },
+    token: {
+        type: String,
+    },
+    channel: {
+        type: String,
+    },
 });
 
-const stats = mongoose.model("Statistique", MeetingSchema);
-module.exports = stats;
+const Statistique = mongoose.model("Statistique", MeetingSchema);
+module.exports = Statistique;
