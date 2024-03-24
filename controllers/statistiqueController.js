@@ -11,7 +11,18 @@ exports.getMeetingByTokenAndChannel = async (req, res) => {
     res.status(500).send({ message: "Erreur lors de la recherche des réunions", error: err.message });
   }
 };
+exports.getCountOfStatistiques = async (req, res) => {
+  try {
+    // Compter le nombre total de documents dans la collection
+    const count = await Meeting.countDocuments();
 
+    // Renvoyer le nombre total en tant que réponse JSON
+    res.status(200).json({ count });
+  } catch (error) {
+    console.error('Erreur lors de la récupération du nombre de statistiques :', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération du nombre de statistiques' });
+  }
+};
 
 exports.addStatistique = async (req, res) => {
   try {
