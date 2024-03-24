@@ -4,7 +4,7 @@ const Meeting = require('../models/Statistique');
 
 exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
-    const { token, channel } = req.query; 
+    const { channel } = req.query; 
     const results = await Meeting.find({ channel: channel });
     res.json(results);
   } catch (err) {
