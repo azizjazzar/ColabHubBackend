@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const MeetingSchema = new mongoose.Schema({
     clientAID: {
         type: String,
