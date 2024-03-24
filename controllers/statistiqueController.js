@@ -5,7 +5,7 @@ const Meeting = require('../models/Statistique');
 exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
     const { token, channel } = req.query; 
-    const results = await Statistique.find({ token: token, channel: channel });
+    const results = await Meeting.find({ token: token, channel: channel });
     res.json(results);
   } catch (err) {
     res.status(500).send({ message: "Erreur lors de la recherche des réunions", error: err.message });
