@@ -59,3 +59,23 @@ exports.stripeWebhook = async (req, res) => {
         res.status(400).send(`Webhook error: ${err.message}`);
     }
 };
+exports.getTotalTransactionAmount = async (req, res) => {
+    try {
+        // Récupérer la liste des paiements depuis Stripe
+        const payments = await stripe.charges.list({ limit: 100 }); // Vous pouvez ajuster le limit selon vos besoins
+
+        // Calculer le total des montants
+        let totalAmount = 0;
+        payments.data.forEach(payment => {
+            totalAmount += payment.amount; // Amount est en cents
+        });
+
+        // Convertir le montant total en devise (par exemple, dollars)
+        const totalAmountInUSD = totalAmount / 100;
+
+        res.json({ totalAmountInUSD });
+    } catch (error) {
+        console.error('Error fetching payments:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
