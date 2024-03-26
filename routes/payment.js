@@ -5,6 +5,7 @@ const router = express.Router();
 // Import paymentController
 const paymentController = require('../controllers/paymentController');
 
+router.get('/total-transaction-amount', paymentController.getTotalTransactionAmount);
 // Route to create a PaymentIntent
 router.post('/create-checkout-session', express.json(), paymentController.createCheckoutSession);
 
