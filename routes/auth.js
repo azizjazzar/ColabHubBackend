@@ -23,7 +23,8 @@ const {
   sendEmailToAdmin,
   chatgpt,
   chatgptAnalyse,
-  sendEmail
+  sendEmail,
+  getTotalUsersCount
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
@@ -38,7 +39,7 @@ router.route("/logout").post(logout);
 router.route("/logout").post(logout);
 router.route("/sendemail").post(sendEmailToAdmin);
 router.route("/email").post(sendEmail);
-
+router.route("/userCount").get(getTotalUsersCount);
 router.route("/chatgpt").post(chatgpt);
 router.route("/chatgptAnalyse").post(chatgptAnalyse);
 
