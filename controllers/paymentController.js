@@ -61,15 +61,12 @@ exports.stripeWebhook = async (req, res) => {
 };
 exports.getTotalTransactionAmount = async (req, res) => {
     try {
-        // Récupérer la liste de toutes les transactions depuis Stripe
-        const payments = await stripe.charges.list({ limit: 100 }).autoPagingEach(async (payment) => {
-            // Traiter chaque paiement ici si nécessaire
-            console.log('Payment:', payment);
-        });
+        // Récupérer la liste des paiements depuis Stripe
+        const payments = await stripe.charges.list({ limit: 9000 }); // Vous pouvez ajuster le limit selon vos besoins
 
         // Calculer le total des montants
         let totalAmount = 0;
-        payments.forEach(payment => {
+        payments.data.forEach(payment => {
             totalAmount += payment.amount; // Amount est en cents
         });
 
@@ -82,4 +79,5 @@ exports.getTotalTransactionAmount = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
