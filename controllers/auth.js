@@ -6,7 +6,17 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 const activeRefreshTokens = {};
 const axios = require('axios');
+exports.getTotalUsersCount = async (req, res, next) => {
+  try {
+    // Récupérer le nombre total d'utilisateurs depuis la base de données
+    const count = await User.countDocuments();
 
+    res.status(200).json({ success: true, totalUsers: count });
+  } catch (error) {
+    console.error('Error fetching total users count:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch total users count' });
+  }
+};
 exports.sendEmail = async (req, res, next) => {
     const { masteremail, message, clientemail } = req.body;
   
