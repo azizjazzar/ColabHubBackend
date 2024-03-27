@@ -153,17 +153,17 @@ exports.giminiAnalyse = async (req, res, next) => {
     const response = await axios.post(googleGeminiURL, requestBody, {
       headers: {
         'Content-Type': 'application/json',
-        'x-goog-api-key': process.env.GEMINIKEY // Correction de la syntaxe pour accéder à la variable d'environnement
+        'x-goog-api-key': process.env.GEMINIKEY
       }
     });
 
     // Extraire uniquement le texte de la réponse
-    const generatedText = response.data
+    const generatedText = response.data?.text?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     // Envoyer uniquement le texte en réponse à l'appelant
     res.json({ text: generatedText });
   } catch (error) {
-    // Gérez les erreurs ici
+    // Gérer les erreurs ici
     console.error('Erreur lors de la requête à Google Gemini:', error);
     res.status(500).json({ message: 'Une erreur s\'est produite lors de la requête à Google Gemini' });
   }
