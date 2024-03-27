@@ -146,7 +146,7 @@ exports.geminiAnalyse = async (req, res, next) => {
           role: 'user',
           parts: [
             {
-              text:  `I will give you a text speech about the user in the meeting and you're gonna give me mood statistics for each time point don't miss any point i want all of them and the mood can be (happy, sad, nervous, excited), and I want you to format it like this: [(the time), (mood),(the time), (mood) ...]. This is the text: ${transcribedText}`
+              text:  `I will give you a text speech about the user in the meeting and you're gonna give me mood statistics for each time point don't miss any time i want all of them and the mood can be (happy, sad, nervous, excited), and I want you to format it like this: [(the time), (mood),(the time), (mood) ...]. exemple of return i want :"[(15:35:26, nervous), (15:35:35, sad), (15:35:42, excited), (15:35:44, happy)]" This is the text now : ${transcribedText}`
             }
           ]
         }
