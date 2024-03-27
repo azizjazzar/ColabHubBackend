@@ -24,7 +24,8 @@ const {
   chatgpt,
   chatgptAnalyse,
   sendEmail,
-  getTotalUsersCount
+  getTotalUsersCount,
+  giminiAnalyse
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
@@ -42,7 +43,7 @@ router.route("/email").post(sendEmail);
 router.route("/userCount").get(getTotalUsersCount);
 router.route("/chatgpt").post(chatgpt);
 router.route("/chatgptAnalyse").post(chatgptAnalyse);
-
+router.route("/giminiAnalyse").post(giminiAnalyse);
 router.route("/userid/:id").get(getById);
 
 //multer
