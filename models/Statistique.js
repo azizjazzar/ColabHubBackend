@@ -13,6 +13,14 @@ const MeetingSchema = new mongoose.Schema({
     clientB: { 
         type: String,
     },
+    responseClientA:{
+        type: String,
+
+    },
+        responseClientB:{
+        type: String,
+
+    },
     dateEnrg: {
         type: Date,
         default: Date.now 
