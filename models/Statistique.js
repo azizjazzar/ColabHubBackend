@@ -9,12 +9,9 @@ const MeetingSchema = new mongoose.Schema({
     },
     clientA: {
         type: String,
-        maxlength: 10000, 
-
     },
     clientB: { 
         type: String,
-        maxlength: 10000, 
 
     },
     responseClientA:{
