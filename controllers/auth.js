@@ -164,7 +164,7 @@ exports.geminiAnalyse = async (req, res, next) => {
     console.log('Structure de la réponse:', response.data);
 
     // Envoyer la réponse complète en réponse à l'appelant (pour le débogage)
-    res.json(response.data.candidates.content.parts.text);
+    response.data.candidates[0].content.parts[0].text
   } catch (error) {
     // Gérer les erreurs ici
     console.error('Erreur lors de la requête à Google Gemini:', error);
