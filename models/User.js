@@ -31,14 +31,13 @@ const UserSchema = new mongoose.Schema({
   picture: {
     type: String,
   },
-
 });
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre("save", async function (next) {
   try {
     if (!this.id) {
       // Générez un identifiant unique si celui-ci n'est pas déjà défini
-      const count = await mongoose.model('user').countDocuments();
+      const count = await mongoose.model("user").countDocuments();
       this.id = count + 1;
     }
     next();

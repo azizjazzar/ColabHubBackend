@@ -1,25 +1,47 @@
-// Middleware pour vérifier le token
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 exports.verifyTokenMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-
     if (authHeader) {
       const token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.JWT_SECRET || 'yourFallbackSecretKey', (err, user) => {
-        if (err) {
-          return res.status(403).json({ success: false, message: "Token is not valid" });
-        }
+      console.log("Received token:", token);
+      jwt.verify(
+        token,
+        process.env.JWT_SECRET || "yourFallbackSecretKey",
+        (err, decodedUser) => {
+          if (err) {
+            console.log("Token verification error:", err);
+            if (err.name === "TokenExpiredError") {
+              // Handle expired token specifically
+              return res.status(401).json({ success: false, message: "Token expired" });
+            } else {
+              // Handle other token verification errors
+              return res.status(403).json({ success: false, message: "Token is not valid" });
+            }
+          }
+          console.log("Decoded user:", decodedUser);
+          if (!decodedUser || !decodedUser._id) {
+            console.log("Decoded token does not contain user _id");
+            return res.status(400).json({
+              success: false,
+              message: "Invalid token payload: Missing user _id",
+            });
+          }
 
-        // Ajoutez l'objet utilisateur à la demande pour une utilisation ultérieure
-        req.user = user;
-        next(); // Passez à la fonction suivante dans la chaîne middleware
-      });
+          req.user = decodedUser;
+          next();
+        }
+      );
     } else {
-      res.status(401).json({ success: false, message: "Authentication header not provided (Token)" });
+      console.log("No authentication header provided");
+      return res.status(401).json({
+        success: false,
+        message: "Authentication header not provided (Token)",
+      });
     }
   } catch (error) {
+    console.error("Error in verifyTokenMiddleware:", error);
     next(error);
   }
 };

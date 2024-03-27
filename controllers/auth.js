@@ -6,6 +6,60 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const activeRefreshTokens = {};
 
+// Helper function to generate a JWT token
+function generateToken(payload, secret = process.env.JWT_SECRET, options = {}) {
+  return jwt.sign(payload, secret, options);
+}
+
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email }).exec();
+
+    if (!user || !(await bcrypt.compare(password, user.mot_passe))) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Email ou mot de passe incorrect" });
+    }
+
+    const accessTokenPayload = {
+      _id: user._id,
+      email: user.email,
+      type: user.type,
+    };
+    const refreshTokenPayload = { userId: user._id };
+
+    const accessToken = generateToken(
+      accessTokenPayload,
+      process.env.JWT_SECRET,
+      { expiresIn: "23h" }
+    );
+    const refreshToken = generateToken(
+      refreshTokenPayload,
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    activeRefreshTokens[refreshToken] = true;
+
+    res.cookie("jwtToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 23 * 60 * 60 * 1000,
+    });
+    res.json({
+      type: user.type,
+      success: true,
+      message: "Connexion réussie",
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 // Create operation
 exports.register = async (req, res, next) => {
@@ -188,36 +242,14 @@ const sendDeletionEmail = async (userEmail) => {
     throw new Error('Erreur lors de l\'envoi de l\'e-mail de suppression : ' + error.message);
   }
 };
-exports.login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).exec();
 
-    if (user) {
-      const passwordMatch = await bcrypt.compare(password, user.mot_passe);
 
-      if (passwordMatch) {
-        const accessTokenPayload = { email: user.email, type: user.type };
-        const refreshTokenPayload = { userId: user._id };
 
-        const accessToken = generateToken(accessTokenPayload, process.env.JWT_SECRET, { expiresIn: '10s' });
-        const refreshToken = generateToken(refreshTokenPayload, 'refreshTokenSecret', { expiresIn: '7d' });
 
-        activeRefreshTokens[refreshToken] = true;
+// This object should be stored more persistently (e.g., in a database)
 
-        res.cookie('jwtToken', accessToken, { httpOnly: true, maxAge: 60000 });
 
-        res.json({ type: user.type, success: true, message: 'Connexion réussie', accessToken, refreshToken });
-      } else {
-        res.json({ success: false, message: 'Email ou mot de passe incorrect' });
-      }
-    } else {
-      res.json({ success: false, message: 'Email ou mot de passe incorrect' });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
+
 
 exports.verify = async (req, res, next) => {
   try {
