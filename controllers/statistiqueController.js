@@ -4,13 +4,14 @@ const Meeting = require('../models/Statistique');
 
 exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
-    const { channel,token } = req.body; 
-    const results = await Meeting.findOne({ channel , token});
+    const { channel, token } = req.body; 
+    const results = await Meeting.findOne({ channel, token });
     res.json(results);
   } catch (err) {
     res.status(500).send({ message: "Erreur lors de la recherche des réunions", error: err.message });
   }
 };
+
 exports.getCountOfStatistiques = async (req, res) => {
   try {
     // Compter le nombre total de documents dans la collection
@@ -26,7 +27,7 @@ exports.getCountOfStatistiques = async (req, res) => {
 
 exports.addStatistique = async (req, res) => {
   try {
-    const { clientA, clientB, dateEnrg, token, clientAID, clientBID, channel } = req.body;
+    const { clientA, clientB, dateEnrg, token, clientAID, clientBID, channel, responseClientA, responseClientB } = req.body;
     const nouvelleStatistique = new Meeting({
       clientA: clientA,
       clientB: clientB,
@@ -34,7 +35,9 @@ exports.addStatistique = async (req, res) => {
       clientBID: clientBID,
       dateEnrg: dateEnrg,
       channel: channel,
-      token: token
+      token: token,
+      responseClientA: responseClientA,
+      responseClientB: responseClientB
     });
     const statistiqueEnregistree = await nouvelleStatistique.save();
     console.log('Statistique ajoutée avec succès :', statistiqueEnregistree);
@@ -44,6 +47,7 @@ exports.addStatistique = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de l\'ajout de la statistique' });
   }
 };
+
 exports.isClientAEmpty = async (req, res) => {
   const { token, channel } = req.body;
   try {
@@ -55,6 +59,7 @@ exports.isClientAEmpty = async (req, res) => {
     res.status(500).json({ error: 'Error checking if clientA is empty' });
   }
 };
+
 // Obtenir toutes les statistiques
 exports.getAllStatistiques = async (req, res) => {
   try {
@@ -84,7 +89,7 @@ exports.getStatistiqueById = async (req, res) => {
 // Mettre à jour une statistique par ID
 exports.updateStatistiqueById = async (req, res) => {
   const { id } = req.params;
-  const { clientA, clientB, dateEnrg, token, clientAID, clientBID, channel } = req.body;
+  const { clientA, clientB, dateEnrg, token, clientAID, clientBID, channel, responseClientA, responseClientB } = req.body;
   try {
     const statistique = await Meeting.findByIdAndUpdate(id, {
       clientA: clientA,
@@ -93,7 +98,9 @@ exports.updateStatistiqueById = async (req, res) => {
       clientBID: clientBID,
       dateEnrg: dateEnrg,
       channel: channel,
-      token: token
+      token: token,
+      responseClientA: responseClientA,
+      responseClientB: responseClientB
     }, { new: true });
     if (!statistique) {
       return res.status(404).json({ error: 'Statistique non trouvée' });
