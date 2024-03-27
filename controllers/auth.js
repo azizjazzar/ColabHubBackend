@@ -143,7 +143,7 @@ exports.giminiAnalyse = async (req, res, next) => {
           role: 'user',
           parts: [
             {
-              text:  `I will give you a text speech about the user in the meeting and i want you to give me resume about the conversition in titles . This is the text: ${transcribedText}`
+              text:  `I will give you a text speech about the user in the meeting and you're gonna give me mood statistics for each time point where the mood can be (happy, sad, nervous, excited), and I want you to format it like this: [(the time), (mood),(the time), (mood) ...]. This is the text: ${transcribedText}`
             }
           ]
         }
@@ -157,17 +157,18 @@ exports.giminiAnalyse = async (req, res, next) => {
       }
     });
 
-    // Traitez ici la réponse reçue de l'API Google Gemini
-    console.log('Réponse de Google Gemini:', response.data);
+    // Extraire uniquement le texte de la réponse
+    const generatedText = response.data?.generatedContent?.contents?.[0]?.parts?.[0]?.text;
 
-    // Envoyez la réponse à l'appelant ou effectuez d'autres actions nécessaires
-    res.json(response.data);
+    // Envoyer uniquement le texte en réponse à l'appelant
+    res.json({ text: generatedText });
   } catch (error) {
     // Gérez les erreurs ici
     console.error('Erreur lors de la requête à Google Gemini:', error);
     res.status(500).json({ message: 'Une erreur s\'est produite lors de la requête à Google Gemini' });
   }
 };
+
 
 exports.chatgptAnalyse = async (req, res, next) => {
   const { transcribedText } = req.body;
