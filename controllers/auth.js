@@ -131,46 +131,10 @@ exports.chatgpt = async (req, res, next) => {
     res.status(500).json({ error: "Erreur lors de la demande à l'API OpenAI" });
   }
 };
-exports.giminiAnalyse = async (req, res, next) => {
-  const { transcribedText } = req.body;
-
-  try {
-    const googleGeminiURL = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent';
-
-    const requestBody = {
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text:  `I will give you a text speech about the user in the meeting and you're gonna give me mood statistics for each time point where the mood can be (happy, sad, nervous, excited), and I want you to format it like this: [(the time), (mood),(the time), (mood) ...]. This is the text: ${transcribedText}`
-            }
-          ]
-        }
-      ]
-    };
-
-    const response = await axios.post(googleGeminiURL, requestBody, {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': process.env.GEMINIKEY
-      }
-    });
-
-    // Extraire uniquement le texte de la réponse
-    const generatedText = response.data
-
-    // Envoyer uniquement le texte en réponse à l'appelant
-    res.json({ text: generatedText });
-  } catch (error) {
-    // Gérer les erreurs ici
-    console.error('Erreur lors de la requête à Google Gemini:', error);
-    res.status(500).json({ message: 'Une erreur s\'est produite lors de la requête à Google Gemini' });
-  }
-};
 
 
-exports.giminiAnalyse = async (req, res, next) => {
+
+exports.geminiAnalyse = async (req, res, next) => {
   const { transcribedText } = req.body;
 
   try {
