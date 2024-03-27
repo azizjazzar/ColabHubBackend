@@ -134,7 +134,7 @@ exports.chatgpt = async (req, res, next) => {
 
 
 
-exports.geminiAnalyse = async (req, res, next) => {
+exports.giminiAnalyse = async (req, res, next) => {
   const { transcribedText } = req.body;
 
   try {
@@ -160,17 +160,18 @@ exports.geminiAnalyse = async (req, res, next) => {
       }
     });
 
-    // Afficher la structure complète de la réponse
-    console.log('Structure de la réponse:', response.data);
+    // Récupérer le texte généré à partir de la réponse
+    const generatedText = response.data.candidates[0].content.parts[0].text;
 
-    // Envoyer la réponse complète en réponse à l'appelant (pour le débogage)
-    response.data.candidates[0].content.parts[0].text
+    // Envoyer le texte généré en réponse
+    res.json({ answer: generatedText });
   } catch (error) {
     // Gérer les erreurs ici
     console.error('Erreur lors de la requête à Google Gemini:', error);
     res.status(500).json({ message: 'Une erreur s\'est produite lors de la requête à Google Gemini' });
   }
 };
+
 
 
 exports.chatgptAnalyse = async (req, res, next) => {
