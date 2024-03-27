@@ -158,7 +158,7 @@ exports.giminiAnalyse = async (req, res, next) => {
     });
 
     // Extraire uniquement le texte de la réponse
-    const generatedText = response.data?.text?.candidates?.[0]
+    const generatedText = response.data?.text
 
     // Envoyer uniquement le texte en réponse à l'appelant
     res.json({ text: generatedText });
