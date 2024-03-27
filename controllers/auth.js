@@ -173,7 +173,7 @@ exports.geminiAnalyse = async (req, res, next) => {
 };
 
 
-exports.chatgptAlalyse = async (req, res, next) => {
+exports.chatgptAnalyse = async (req, res, next) => {
   const { transcribedText } = req.body;
 
   try {
