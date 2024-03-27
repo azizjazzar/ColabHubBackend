@@ -134,7 +134,7 @@ exports.chatgpt = async (req, res, next) => {
 
 
 
-exports.giminiAnalyse = async (req, res, next) => {
+exports.geminiAnalyse = async (req, res, next) => {
   const { transcribedText } = req.body;
 
   try {
