@@ -153,7 +153,7 @@ exports.giminiAnalyse = async (req, res, next) => {
     const response = await axios.post(googleGeminiURL, requestBody, {
       headers: {
         'Content-Type': 'application/json',
-        'x-goog-api-key': process.env.OPENAI_API_KEY // Correction de la syntaxe pour accéder à la variable d'environnement
+        'x-goog-api-key': process.env.GEMINIKEY // Correction de la syntaxe pour accéder à la variable d'environnement
       }
     });
 
