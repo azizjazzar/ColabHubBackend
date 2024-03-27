@@ -173,7 +173,6 @@ exports.geminiAnalyse = async (req, res, next) => {
 };
 
 exports.geminiAnalyseWithText = async (req, res, next) => {
-  const { transcribedText } = req.body;
   const { text } = req.body;
 
 
@@ -186,7 +185,7 @@ exports.geminiAnalyseWithText = async (req, res, next) => {
           role: 'user',
           parts: [
             {
-              text:  `${text}  ${transcribedText}`
+              text:  `${text}`
             }
           ]
         }
