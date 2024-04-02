@@ -13,6 +13,7 @@ const jobRoutes = require('./routes/jobOfferRoutes');
 const meetingRoutes= require('./routes/meeting');
 const stats= require('./routes/statistiques');
 const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
+const server = require("http").createServer(app);
 
 
 connectDB();
@@ -23,7 +24,12 @@ app.set('view engine', 'ejs');
 
 // Utilisation de CORS middleware
 app.use(cors());
-
+const io = require("socket.io")(server, {
+  cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+  }
+});
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -70,6 +76,19 @@ app.get('/rtc/:channelName/:expiration', (req, res) => {
   res.json({ token });
 });
 
+//socket video call
+io.on("connection", (socket) => {
+  socket.emit("me", socket.id);
+  socket.on("disconnect", () => {
+      socket.broadcast.emit("callEnded")
+  });
+  socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+      io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+  });
+  socket.on("answerCall", (data) => {
+      io.to(data.to).emit("callAccepted", data.signal)
+  });
+});
 
 
 // Start server
