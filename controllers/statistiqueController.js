@@ -1,4 +1,5 @@
 const Meeting = require('../models/Statistique');
+const User = require('../models/user'); 
 
 // Ajouter une statistique
 
@@ -126,5 +127,34 @@ exports.deleteStatistiqueById = async (req, res) => {
   } catch (error) {
     console.error('Erreur lors de la suppression de la statistique :', error);
     res.status(500).json({ error: 'Erreur lors de la suppression de la statistique' });
+  }
+};
+exports.getall = async (req, res) => {
+  try {
+    // Retrieve all meetings
+    const statistiques = await Meeting.find();
+
+    // Map through each meeting and perform database lookup for clientA and clientB information
+    const statistiquesWithUserInfo = await Promise.all(statistiques.map(async (statistique) => {
+      const { clientAID, clientBID } = statistique;
+
+      // Find user information for clientA
+      const userA = await User.findOne({ _id: clientAID });
+      // Find user information for clientB
+      const userB = await User.findOne({ _id: clientBID });
+
+      // Construct an object containing required information
+      return {
+        ...statistique.toObject(), // Convert Mongoose document to plain JavaScript object
+        clientA: userA ? { nom: userA.nom, prenom: userA.prenom, picture: userA.picture } : null,
+        clientB: userB ? { nom: userB.nom, prenom: userB.prenom, picture: userB.picture } : null
+      };
+    }));
+
+    // Send response with the enriched statistics
+    res.status(200).json(statistiquesWithUserInfo);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des statistiques :', error);
+    res.status(500).json({ error: 'Erreur lors de la récupération des statistiques' });
   }
 };
