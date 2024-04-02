@@ -1,5 +1,5 @@
 const Meeting = require('../models/Statistique');
-const User = require('../models/user'); 
+const User = require('../models/User'); 
 
 // Ajouter une statistique
 
