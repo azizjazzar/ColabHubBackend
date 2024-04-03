@@ -12,15 +12,12 @@ const MeetingSchema = new mongoose.Schema({
     },
     clientB: { 
         type: String,
-
     },
     responseClientA:{
         type: String,
-
     },
-        responseClientB:{
+    responseClientB:{
         type: String,
-
     },
     dateEnrg: {
         type: Date,
@@ -30,6 +27,10 @@ const MeetingSchema = new mongoose.Schema({
         type: String,
     },
     channel: {
+        type: String,
+    },
+    // Ajout du champ Status
+    status: {
         type: String,
     },
 });
