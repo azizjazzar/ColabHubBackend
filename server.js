@@ -55,6 +55,13 @@ app.use('/blogs', blogRoutes);
 //jobs
 app.use('/jobs', jobRoutes);
 
+// Import des routes de scraping
+const scraperRoutes = require('./routes/scraperRoutes');
+
+// Utilisation des routes de scraping
+app.use('/scraping', scraperRoutes);
+
+
 
 app.use('/', stats);
 app.get('/rtc/:channelName/:expiration', (req, res) => {
