@@ -108,3 +108,64 @@ exports.getMeetForFreelancer = async (req, res) => {
     res.status(500).json({ error: 'Server Error' });
   }
 };
+
+
+exports.displaySuggestion = async (req, res) => {
+  try {
+    const meetingId = req.params.meetingId;
+
+    // Vérifiez si l'ID de la réunion est fourni dans la demande
+    if (!meetingId) {
+      return res.status(400).json({ error: 'Meeting ID not provided' });
+    }
+
+    // Recherchez la réunion par ID
+    const meeting = await Meeting.findById(meetingId).exec();
+
+    // Vérifiez si la réunion existe
+    if (!meeting) {
+      return res.status(404).json({ error: 'Meeting not found' });
+    }
+
+    // Récupérez la suggestion de la réunion
+    const suggestion = meeting.suggestion;
+
+    res.status(200).json({ suggestion });
+  } catch (error) {
+    console.error('Error displaying suggestion:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
+exports.fillSuggestion = async (req, res) => {
+  try {
+    const { suggestion } = req.body;
+    const meetingId = req.params.meetingId;
+
+    // Vérifiez si l'ID de la réunion est fourni dans la demande
+    if (!meetingId) {
+      return res.status(400).json({ error: 'Meeting ID not provided' });
+    }
+
+    // Recherchez la réunion par ID
+    const meeting = await Meeting.findById(meetingId).exec();
+
+    // Vérifiez si la réunion existe
+    if (!meeting) {
+      return res.status(404).json({ error: 'Meeting not found' });
+    }
+
+    // Mettez à jour la suggestion de la réunion
+    meeting.suggestion = suggestion;
+    await meeting.save();
+
+    res.status(200).json({ message: 'Suggestion filled successfully', meeting });
+  } catch (error) {
+    console.error('Error filling suggestion:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+

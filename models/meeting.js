@@ -9,6 +9,9 @@ const MeetingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  suggestion: {  
+    type: String,
+  },
   dateStart: {
     type: Date,
     required: true,

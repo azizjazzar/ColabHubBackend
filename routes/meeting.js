@@ -11,4 +11,8 @@ router.get('/getmeets/:freelancerId', MeetingController.getMeetForFreelancer);
 // Corrected parameter name to match the controller function
 router.delete('/delete/:meetingId', MeetingController.deleteMeeting);
 
+// Ajouter les routes pour remplir une suggestion et afficher une suggestion
+router.put('/fill-suggestion/:meetingId', MeetingController.fillSuggestion);
+router.get('/display-suggestion/:meetingId', MeetingController.displaySuggestion);
+
 module.exports = router;
