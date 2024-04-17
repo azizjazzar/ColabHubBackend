@@ -26,12 +26,14 @@ const {
   sendEmail,
   getTotalUsersCount,
   geminiAnalyse,
-  geminiAnalyseWithText
+  geminiAnalyseWithText,
+  updatebyId
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
 router.route("/register").post(register);
 router.route("/update/:email").put(update);
+router.route("/updatebyid/:id").put(update);
 router.route("/users").get(users);
 router.route("/user/:email").get(getByEmail);
 router.route("/email/:email/:code").get(sendmail);
