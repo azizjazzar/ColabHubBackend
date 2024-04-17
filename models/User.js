@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
   adresse: {
     type: String,
   },
+   rate: {
+    type: Number,
+    default: 0, 
+  },
   mot_passe: {
     type: String,
   },
