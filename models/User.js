@@ -22,10 +22,7 @@ const UserSchema = new mongoose.Schema({
   adresse: {
     type: String,
   },
-   rate: {
-    type: Number,
-    default: 0, 
-  },
+  
   mot_passe: {
     type: String,
   },
@@ -35,6 +32,10 @@ const UserSchema = new mongoose.Schema({
   picture: {
     type: String, 
     contentType: String,
+  },
+   rate: {
+    type: Number,
+    default: 0, 
   },
 });
 
