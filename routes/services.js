@@ -11,6 +11,6 @@ router.delete('/:id', servicesController.deleteService);
 router.post('/purchase/:id', servicesController.purchaseService);
 // Ajouter un nouvel endpoint pour trier les services par domaine d'expertise
 router.get('/byDomain/:domain', servicesController.getServicesByDomain);
-
+router.get('/byFreelancer/:freelancerId', servicesController.getServicesByFreelancerId);
 
 module.exports = router;

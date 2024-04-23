@@ -81,3 +81,34 @@ exports.getTotalTransactionAmount = async (req, res) => {
 };
 
 
+
+exports.createCheckoutService = async (req, res) => {
+    const { amount, serviceId } = req.body; // Extraire serviceId du corps de la requête
+
+    try {
+        console.log("Service ID:", serviceId); // Assurez-vous que le serviceId est correctement extrait
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: 'Service',
+                    },
+                    unit_amount: amount * 100, // Amount in cents
+                },
+                quantity: 1,
+            }],
+            mode: 'payment',
+            success_url: `http://localhost:5173/checkout-service/${serviceId}`,
+            cancel_url: 'http://localhost:3000/payment-cancelled',
+            cancel_url: 'http://localhost:3000/cancel',
+        });
+
+        res.json({ sessionId: session.id });
+    } catch (error) {
+        console.error('Error creating payment session:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
