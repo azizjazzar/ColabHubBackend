@@ -16,6 +16,10 @@ const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
 const server = require("http").createServer(app);
 const nlp = require('compromise');
 
+const chatRoutes = require("./routes/ChatRoute");
+const MessageRoute = require("./routes/MessageRoute");
+
+
 connectDB();
 
 app.use(express.json());
@@ -75,6 +79,10 @@ const scraperRoutes = require('./routes/scraperRoutes');
 
 // Utilisation des routes de scraping
 app.use('/scraping', scraperRoutes);
+
+
+app.use("/chat", chatRoutes);
+app.use("/message", MessageRoute);
 
 
 
