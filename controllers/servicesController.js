@@ -106,3 +106,14 @@ exports.getServicesByDomain = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+
+exports.getServicesByFreelancerId = async (req, res) => {
+    try {
+        const freelancerId = req.params.freelancerId; // Récupérer l'ID du freelancer à partir des paramètres de la requête
+        const services = await Service.find({ freelancerId: freelancerId }); // Recherchez les services associés à cet ID de freelancer
+        res.json(services); // Renvoyer les services trouvés en réponse
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
