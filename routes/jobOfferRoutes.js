@@ -11,7 +11,7 @@ router.get('/get', JobController.getAllJobOffers);
 router.get('/get/:jobId', JobController.getJobOfferById);
 
 router.put('/update/:jobId', JobController.updateJobOffer);
-
+router.get('/getFreelancersByJob/:jobId', JobController.getAllFreelancerByJob);
 router.delete('/delete/:jobId', JobController.deleteJobOffer);
 
 module.exports = router;
