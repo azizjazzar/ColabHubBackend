@@ -12,6 +12,7 @@ const blogRoutes = require('./routes/blog');
 const jobRoutes = require('./routes/jobOfferRoutes');
 const meetingRoutes= require('./routes/meeting');
 const stats= require('./routes/statistiques');
+const clientRequestRoutes = require('./routes/clientRequestRoutes');
 const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
 const server = require("http").createServer(app);
 const nlp = require('compromise');
@@ -57,6 +58,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use('/consultations', consultationsRoutes);
 app.use('/services', servicesRoutes);
 app.use('/payment', paymentRoutes);
+app.use('/requests', clientRequestRoutes);
 
 // Route for tasks
 app.use('/tasks', taskRoutes);
