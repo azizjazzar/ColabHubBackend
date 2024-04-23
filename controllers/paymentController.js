@@ -83,11 +83,11 @@ exports.getTotalTransactionAmount = async (req, res) => {
 
 
 exports.createCheckoutService = async (req, res) => {
-    const { amount } = req.body;
-    const serviceId = req.params.serviceId;
-    console.log("Service ID:", serviceId); // Assurez-vous que le serviceId est correctement extrait
+    const { amount, serviceId } = req.body; // Extraire serviceId du corps de la requête
 
     try {
+        console.log("Service ID:", serviceId); // Assurez-vous que le serviceId est correctement extrait
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
