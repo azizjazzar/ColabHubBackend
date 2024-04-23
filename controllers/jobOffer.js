@@ -1,6 +1,6 @@
 // jobOfferController.js
 const JobOffer = require("../models/jobOffer");
-
+const User = require("../models/User");
 // Controller to create a new job offer
 exports.createJobOffer = async (req, res) => {
   try {
