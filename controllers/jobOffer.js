@@ -6,11 +6,12 @@ exports.createJobOffer = async (req, res) => {
   try {
     const joboffer = new JobOffer(req.body);
     await joboffer.save();
-    res.status(201).json(jobOffer);
+    res.status(201).json(joboffer); // Corrected variable name to joboffer
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 // Controller to get all job offers
 exports.getAllJobOffers = async (req, res) => {
