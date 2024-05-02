@@ -167,5 +167,29 @@ exports.fillSuggestion = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+// Controller to get a meeting by ID
+exports.getMeetingById = async (req, res) => {
+  try {
+    const meetingId = req.params.meetingId;
+
+    // Check if the meeting ID is provided in the request
+    if (!meetingId) {
+      return res.status(400).json({ error: 'Meeting ID not provided' });
+    }
+
+    // Query to find the meeting by ID
+    const meeting = await Meeting.findById(meetingId).exec();
+
+    // Check if the meeting exists
+    if (!meeting) {
+      return res.status(404).json({ error: 'Meeting not found' });
+    }
+
+    res.status(200).json(meeting);
+  } catch (error) {
+    console.error('Error retrieving meeting by ID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 
