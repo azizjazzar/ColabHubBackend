@@ -5,6 +5,10 @@ const MeetingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  token: {
+    type: String,
+    required: false,
+  },
   description: {  // Fix the typo here
     type: String,
     required: true,
