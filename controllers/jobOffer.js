@@ -4,8 +4,8 @@ const User = require("../models/User");
 // Controller to create a new job offer
 exports.createJobOffer = async (req, res) => {
   try {
-    const jobOffer = new JobOffer(req.body);
-    await jobOffer.save();
+    const joboffer = new JobOffer(req.body);
+    await joboffer.save();
     res.status(201).json(jobOffer);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
