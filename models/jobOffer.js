@@ -5,21 +5,21 @@ const jobOfferSchema = new mongoose.Schema({
   ownerId:  {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
 },
 
   freelancersId: [ {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
   }],
-  rate: { type: Number, required: true },
-  expertiseLevel: { type: String, required: true },
-  estimatedTime: { type: Number, required: true },
-  duration: { type: Number, required: true }, // in hours
-  budget: { type: Number, required: true },
+  rate: { type: Number, required: false },
+  expertiseLevel: { type: String, required: false },
+  estimatedTime: { type: Number, required: false },
+  duration: { type: Number, required: false }, // in hours
+  budget: { type: Number, required: false },
   posted: { type: Date, default: Date.now },
-  description: { type: String, required: true },
+  description: { type: String, required: false },
   technologies: [{ type: String }],
   //proposals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Proposal' }],
   paymentVerified: { type: Boolean, default: false },

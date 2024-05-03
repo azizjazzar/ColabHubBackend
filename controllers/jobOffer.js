@@ -1,21 +1,27 @@
 // jobOfferController.js
 const JobOffer = require("../models/jobOffer");
 const User = require("../models/User");
+
+
+
+
 // Controller to create a new job offer
 exports.createJobOffer = async (req, res) => {
-  try {
-    const joboffer = new JobOffer(req.body);
-    await joboffer.save();
-    res.status(201).json(joboffer); // Corrected variable name to joboffer
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+try {
+  const joboffer = new JobOffer(req.body);
+  await joboffer.save();
+  res.status(201).json(joboffer);
+} catch (error) {
+  res.status(500).json({ error: "Internal Server Error" });
+}
+
 };
 
 
 // Controller to get all job offers
 exports.getAllJobOffers = async (req, res) => {
   try {
+    
     const jobOffers = await JobOffer.find();
     res.status(200).json(jobOffers);
   } catch (error) {
