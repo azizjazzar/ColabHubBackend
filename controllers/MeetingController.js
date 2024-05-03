@@ -137,6 +137,25 @@ exports.displaySuggestion = async (req, res) => {
   }
 };
 
+exports.getMeetingsByJobOfferId = async (req, res) => {
+  try {
+    const jobOfferId = req.params.jobOfferId;
+
+    // Recherche des meetings par jobOfferId
+    const meetings = await Meeting.find({ jobOffer: jobOfferId });
+
+    if (!meetings) {
+      return res.status(404).json({ message: "Aucun meeting trouvé pour cet ID d'offre d'emploi." });
+    }
+
+    // Retourner les meetings trouvés
+    res.status(200).json({ meetings });
+  } catch (error) {
+    console.error("Erreur lors de la recherche des meetings par ID d'offre d'emploi :", error);
+    res.status(500).json({ error: "Erreur serveur lors de la recherche des meetings." });
+  }
+};
+
 
 
 exports.fillSuggestion = async (req, res) => {

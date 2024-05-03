@@ -9,6 +9,7 @@ router.get('/get/:meetingId', MeetingController.getMeetingById);
 router.put('/update/:meetingId', MeetingController.updateMeeting);
 router.get('/getmeets/:freelancerId', MeetingController.getMeetForFreelancer);
 
+router.get('/meetings/jobOffer/:jobOfferId',MeetingController.getMeetingsByJobOfferId);
 // Corrected parameter name to match the controller function
 router.delete('/delete/:meetingId', MeetingController.deleteMeeting);
 

@@ -34,6 +34,10 @@ const MeetingSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   }],
+  jobOffer: { 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'JobOffer',
+  },
 });
 
 const Meeting = mongoose.model("Meeting", MeetingSchema);

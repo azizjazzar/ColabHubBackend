@@ -71,25 +71,7 @@ exports.deleteJobOffer = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// Fonction pour récupérer toutes les projets affectées à un freelancer
-exports.getJobsForFreelancer = async (req, res) => {
-  try {
-    const freelancerId = req.params.freelancerId;
 
-    // Vérifiez si l'ID du freelancer est fourni dans la requête
-    if (!freelancerId) {
-      return res.status(400).json({ error: 'Freelancer ID non fourni' });
-    }
-
-    // Requête pour trouver les offres d'emploi liées à l'ID du freelancer
-    const jobs = await JobOffer.find({ freelancersId: freelancerId }).exec();
-
-    res.status(200).json(jobs);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des offres d\'emploi par ID de freelancer :', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-};
 exports.getAllFreelancerByJob = async (req, res) => {
   try {
     const jobOffer = await JobOffer.findById(req.params.jobId);
@@ -112,3 +94,24 @@ exports.getAllFreelancerByJob = async (req, res) => {
   }
 };
 
+
+
+// Contrôleur pour récupérer tous les emplois affectés à un freelancer par son ID
+exports.getJobsForFreelancer = async (req, res) => {
+  try {
+    const freelancerId = req.params.freelancerId;
+
+    // Vérifiez si l'ID du freelancer est fourni dans la requête
+    if (!freelancerId) {
+      return res.status(400).json({ error: 'ID de freelancer non fourni' });
+    }
+
+    // Requête pour trouver les offres d'emploi liées à l'ID du freelancer
+    const jobs = await JobOffer.find({ freelancersId: freelancerId }).exec();
+
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des offres d\'emploi par ID de freelancer :', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+};
