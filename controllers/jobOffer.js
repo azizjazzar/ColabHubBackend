@@ -115,3 +115,36 @@ exports.getJobsForFreelancer = async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 };
+
+
+// Controller to add a freelancer to a job offer by ID
+exports.addFreelancerToJobOffer = async (req, res) => {
+  try {
+    const { jobId, freelancerId } = req.body;
+
+    // Vérifiez si les identifiants du jobOffer et du freelancer sont fournis dans la requête
+    if (!jobId || !freelancerId) {
+      return res.status(400).json({ error: 'ID du jobOffer ou ID du freelancer non fourni' });
+    }
+
+    // Recherchez le jobOffer par son ID
+    const jobOffer = await JobOffer.findById(jobId);
+
+    // Vérifiez si le jobOffer existe
+    if (!jobOffer) {
+      return res.status(404).json({ error: 'Job Offer non trouvé' });
+    }
+
+    // Ajoutez le freelancerId au tableau freelancersId du jobOffer
+    jobOffer.freelancersId.push(freelancerId);
+
+    // Enregistrez les modifications du jobOffer
+    await jobOffer.save();
+
+    res.status(200).json(jobOffer);
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout du freelancer au jobOffer :', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+};
+

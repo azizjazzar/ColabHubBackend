@@ -15,4 +15,6 @@ router.get('/freelancers/:freelancerId', JobController.getJobsForFreelancer);
 router.delete('/delete/:jobId', JobController.deleteJobOffer);
 
 router.post('/add', JobController.createJobOffer);
+
+router.post('/add/:jobId/:freelancerId', JobController.addFreelancerToJobOffer);
 module.exports = router;

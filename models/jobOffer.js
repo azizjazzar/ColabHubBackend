@@ -32,6 +32,8 @@ const jobOfferSchema = new mongoose.Schema({
 });
 
 
+
+
 const JobOffer = mongoose.model('JobOffer', jobOfferSchema);
 
 module.exports = JobOffer;
