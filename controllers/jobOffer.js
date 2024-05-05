@@ -64,3 +64,61 @@ exports.deleteJobOffer = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.applyToJobOffer = async (req, res) => {
+  try {
+    const jobId = req.params.jobId;
+    const userId = req.user._id; 
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({
+          error: "No PDF file uploaded or file format is not supported",
+        });
+    }
+    const cvPath = req.file.path; 
+
+    const application = {
+      applicantId: userId,
+      cv: cvPath,
+    };
+
+    const jobOffer = await JobOffer.findByIdAndUpdate(
+      jobId,
+      { $push: { applications: application } },
+      { new: true }
+    );
+
+    if (!jobOffer) {
+      return res.status(404).json({ error: "Job Offer not found" });
+    }
+
+    res.status(201).json({ message: "Application successful", application });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+exports.getJobOfferById = async (req, res) => {
+  try {
+    const jobOffer = await JobOffer.findById(req.params.jobId).populate({
+      path: "applications",
+      select: "applicantId cv applyDate", // Select specific fields to return
+      populate: {
+        path: "applicantId",
+        select: "name email", // Assuming these fields are available in the User model
+      },
+    });
+
+    if (!jobOffer) {
+      return res.status(404).json({ error: "Job Offer not found" });
+    }
+
+    res.status(200).json(jobOffer);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
