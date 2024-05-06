@@ -32,6 +32,7 @@ exports.getTasksByProjectId = async (req, res, next) => {
 };
 
 
+
 // Contrôleur pour récupérer toutes les tâches
 exports.getAllTasks = async (req, res) => {
   try {
@@ -78,5 +79,25 @@ exports.deleteTaskById = async (req, res) => {
     res.status(204).json();
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// Fonction pour lire les tâches par ID du freelanceur
+exports.getTasksByFreelancerId = async (req, res, next) => {
+  try {
+    const freelancerId = req.params.freelancerId;
+
+    // Vérifiez si l'ID du freelanceur est fourni dans la requête
+    if (!freelancerId) {
+      return res.status(400).json({ error: "ID du freelanceur non fourni" });
+    }
+
+    // Requête pour trouver les tâches liées à l'ID du freelanceur
+    const tasks = await Task.find({ freelancerId });
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des tâches par ID du freelanceur :', error);
+    res.status(500).json({ error: 'Erreur serveur' });
   }
 };
