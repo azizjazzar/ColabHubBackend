@@ -360,7 +360,8 @@ exports.gemini2Client = async (req, res, next) => {
           threshold: "BLOCK_MEDIUM_AND_ABOVE"
         }
       ]
-    };
+    }
+  };
 
     const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
 
