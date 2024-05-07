@@ -360,8 +360,31 @@ exports.gemini2Client = async (req, res, next) => {
           threshold: "BLOCK_MEDIUM_AND_ABOVE"
         }
       ]
+    };
+
+    const response = await fetch('gemini2-api-url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any required headers...
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
     }
-  };
+
+    const responseData = await response.json();
+
+    // Handle the response data...
+
+    res.status(200).json(responseData); // Or send any other appropriate response
+  } catch (error) {
+    console.error('An error occurred:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+};
 
     const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
 
