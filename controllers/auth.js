@@ -303,18 +303,18 @@ exports.geminiMoodPrecise = async (req, res, next) => {
         }
       ]
     }
-      const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=YOUR_API_KEY', requestBody);
-    
-    // Extraire le texte de la réponse
+       const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
+
+    // Extract the text from the response
     const reponse = response.data.candidates[0].content.parts[0].text;
-    
-    // Envoyer la réponse au client
+
+    // Send the response to the client
     res.json({ reponse });
   } catch (error) {
-    console.error("Erreur lors de la requête à Google Gemini:", error);
-    // Envoyer une réponse d'erreur au client
+    console.error("Error during request to Google Gemini:", error);
+    // Send an error response to the client
     res.status(500).json({
-      message: "Une erreur s'est produite lors de la requête à Google Gemini"
+      message: "An error occurred during the request to Google Gemini"
     });
   }
 };
@@ -376,45 +376,6 @@ exports.gemini2Client = async (req, res, next) => {
         }
       ]
     }  
-      const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=YOUR_API_KEY', requestBody);
-    
-    // Extraire le texte de la réponse
-    const reponse = response.data.candidates[0].content.parts[0].text;
-    
-    // Envoyer la réponse au client
-    res.json({ reponse });
-  } catch (error) {
-    console.error("Erreur lors de la requête à Google Gemini:", error);
-    // Envoyer une réponse d'erreur au client
-    res.status(500).json({
-      message: "Une erreur s'est produite lors de la requête à Google Gemini"
-    });
-  }
-};
-
-    const response = await fetch('gemini2-api-url', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Add any required headers...
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
-    const responseData = await response.json();
-
-    // Handle the response data...
-
-    res.status(200).json(responseData); // Or send any other appropriate response
-  } catch (error) {
-    console.error('An error occurred:', error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
-};
 
     const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
 
