@@ -303,20 +303,23 @@ exports.geminiMoodPrecise = async (req, res, next) => {
         }
       ]
     }
-       const rep = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
+      const rep = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
 
-    // Extract the text from the response
-    const response = rep.data.candidates[0].content.parts[0].text;
+        // Extract the text from the response
+        let response = rep.data.candidates[0].content.parts[0].text;
 
-    // Send the response to the client
-    res.json({ answer:response });
-  } catch (error) {
-    console.error("Error during request to Google Gemini:", error);
-    // Send an error response to the client
-    res.status(500).json({
-      message: "An error occurred during the request to Google Gemini"
-    });
-  }
+        // Supprime le caractère de nouvelle ligne ("\n")
+        response = response.trim();
+
+        // Envoie la réponse au client
+        res.json({ answer: response });
+    } catch (error) {
+        console.error("Error during request to Google Gemini:", error);
+        // Envoyer une réponse d'erreur au client
+        res.status(500).json({
+            message: "An error occurred during the request to Google Gemini"
+        });
+    }
 };
 exports.gemini2Client = async (req, res, next) => {
   const { text } = req.body;
@@ -377,20 +380,23 @@ exports.gemini2Client = async (req, res, next) => {
       ]
     }  
 
-    const rep = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
+   const rep = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
 
-    // Extract the text from the response
-    const response = rep.data.candidates[0].content.parts[0].text;
+        // Extract the text from the response
+        let response = rep.data.candidates[0].content.parts[0].text;
 
-    // Send the response to the client
-    res.json({ answer:response });
-  } catch (error) {
-    console.error("Error during request to Google Gemini:", error);
-    // Send an error response to the client
-    res.status(500).json({
-      message: "An error occurred during the request to Google Gemini"
-    });
-  }
+        // Supprime le caractère de nouvelle ligne ("\n")
+        response = response.trim();
+
+        // Envoie la réponse au client
+        res.json({ answer: response });
+    } catch (error) {
+        console.error("Error during request to Google Gemini:", error);
+        // Envoyer une réponse d'erreur au client
+        res.status(500).json({
+            message: "An error occurred during the request to Google Gemini"
+        });
+    }
 };
 
 
