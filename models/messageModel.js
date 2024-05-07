@@ -8,7 +8,7 @@ const messageSchema = mongoose.Schema(
     readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
   { timestamps: true }
-);
+);  
 
 const Message = mongoose.model("Message", messageSchema);
 module.exports = Message;

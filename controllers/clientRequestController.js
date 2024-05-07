@@ -37,3 +37,20 @@ exports.getTotalRequestsByServiceId = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+exports.getClientRequestsByServiceId = async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+
+    const clientRequests = await ClientRequest.find({ serviceId });
+
+    if (!clientRequests) {
+      return res.status(404).json({ error: 'No client requests found for this service ID' });
+    }
+
+    res.status(200).json({ clientRequests });
+  } catch (error) {
+    console.error('Error fetching client requests:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};

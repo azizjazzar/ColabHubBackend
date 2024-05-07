@@ -1,12 +1,12 @@
-// jobOfferController.js
 const JobOffer = require("../models/jobOffer");
+const User = require("../models/User");
 
 // Controller to create a new job offer
 exports.createJobOffer = async (req, res) => {
   try {
-    const jobOffer = new JobOffer(req.body);
-    await jobOffer.save();
-    res.status(201).json(jobOffer);
+    const joboffer = new JobOffer(req.body);
+    await joboffer.save();
+    res.status(201).json(joboffer);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -65,18 +65,73 @@ exports.deleteJobOffer = async (req, res) => {
   }
 };
 
+exports.getAllFreelancerByJob = async (req, res) => {
+  try {
+    const jobOffer = await JobOffer.findById(req.params.jobId);
+    if (!jobOffer) {
+      return res.status(404).json({ error: "Job Offer not found" });
+    }
+    let users = [];
+    // Iterate through the array of freelancers
+    for (const freelancerId of jobOffer.freelancersId) {
+      const user = await User.findById(freelancerId);
+      if (user) {
+        users.push(user);
+      }
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.getJobsForFreelancer = async (req, res) => {
+  try {
+    const freelancerId = req.params.freelancerId;
+    if (!freelancerId) {
+      return res.status(400).json({ error: "Freelancer ID not provided" });
+    }
+    const jobs = await JobOffer.find({ freelancersId: freelancerId }).exec();
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error("Error retrieving jobs by freelancer ID:", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
+// Controller to add a freelancer to a job offer by ID
+exports.addFreelancerToJobOffer = async (req, res) => {
+  try {
+    const { jobId, freelancerId } = req.body;
+    if (!jobId || !freelancerId) {
+      return res
+        .status(400)
+        .json({ error: "JobOffer ID or freelancer ID not provided" });
+    }
+    const jobOffer = await JobOffer.findById(jobId);
+    if (!jobOffer) {
+      return res.status(404).json({ error: "Job Offer not found" });
+    }
+    jobOffer.freelancersId.push(freelancerId);
+    await jobOffer.save();
+    res.status(200).json(jobOffer);
+  } catch (error) {
+    console.error("Error adding freelancer to job offer:", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
 exports.applyToJobOffer = async (req, res) => {
   try {
     const jobId = req.params.jobId;
-    const userId = req.user._id; 
+    const userId = req.body.userId; // Assuming you're getting the user's ID from session or token
     if (!req.file) {
-      return res
-        .status(400)
-        .json({
-          error: "No PDF file uploaded or file format is not supported",
-        });
+      return res.status(400).json({
+        error: "No PDF file uploaded or file format is not supported",
+      });
     }
-    const cvPath = req.file.path; 
+    const cvPath = req.file.path; // Path where the CV is stored
 
     const application = {
       applicantId: userId,
@@ -97,28 +152,28 @@ exports.applyToJobOffer = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
+
+  // Properly renamed to reflect its functionality and fix the typo
 };
 
-
-exports.getJobOfferById = async (req, res) => {
+exports.getJobOfferApplicationById = async (req, res) => {
   try {
-    const jobOffer = await JobOffer.findById(req.params.jobId).populate({
-      path: "applications",
-      select: "applicantId cv applyDate", // Select specific fields to return
-      populate: {
-        path: "applicantId",
-        select: "name email", // Assuming these fields are available in the User model
-      },
-    });
-
+   const jobOffer = await JobOffer.findById(req.params.jobId).populate({
+     path: "applications",
+     select: "applicantId cv applyDate",
+     populate: {
+       path: "applicantId",
+       model: "user",
+       select: "nom prenom email", // Adjust according to actual schema fields
+     },
+   });
     if (!jobOffer) {
       return res.status(404).json({ error: "Job Offer not found" });
     }
 
     res.status(200).json(jobOffer);
   } catch (error) {
+    console.error("Error fetching job offer with applications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-

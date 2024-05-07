@@ -5,6 +5,10 @@ const MeetingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  token: {
+    type: String,
+    required: false,
+  },
   description: {  // Fix the typo here
     type: String,
     required: true,
@@ -30,6 +34,10 @@ const MeetingSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   }],
+  jobOffer: { 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'JobOffer',
+  },
 });
 
 const Meeting = mongoose.model("Meeting", MeetingSchema);

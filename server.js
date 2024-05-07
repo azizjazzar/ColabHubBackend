@@ -178,13 +178,13 @@ const generateResponse = (text) => {
     return "Pour devenir freelancer sur notre plateforme, vous devez vous inscrire en tant que freelancer en remplissant le formulaire d'inscription sur notre site. Une fois inscrit, vous pouvez commencer à proposer vos services aux utilisateurs.";
   } else if (/(comment fonctionne la notation)/i.test(lowerText)) {
     return "La notation des freelancers et des experts se fait par les utilisateurs après avoir utilisé leurs services ou consultations. Les utilisateurs peuvent attribuer une note et laisser un commentaire pour évaluer l'expérience.";
-  } else if (/(je veux ecrire un blog|ecrire blog)/i.test(lowerText)) {
+  } else if (/(je veux ecrire un blog|ecrire blog|blog)/i.test(lowerText)) {
     return "je vais vous diriger vers la page blog ";
-  } else if (/(je veux faire une consultation|faire consultation)/i.test(lowerText)) {
+  } else if (/(je veux faire une consultation|faire consultation|consultation)/i.test(lowerText)) {
     return "je vais vous diriger vers la page consultation ";
-  } else if (/(je veux faire une collaboration|faire collaboration)/i.test(lowerText)) {
+  } else if (/(je veux faire une collaboration|faire collaboration|collaboration)/i.test(lowerText)) {
     return "je vais vous diriger vers la page collaboration ";
-  } else if (/(je veux trouver un service|trouver serivce)/i.test(lowerText)) {
+  } else if (/(je veux trouver un service|trouver serivce|service)/i.test(lowerText)) {
     return "je vais vous diriger vers la page service ";
   } else {
     // Réponse par défaut

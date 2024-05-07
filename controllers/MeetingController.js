@@ -137,6 +137,25 @@ exports.displaySuggestion = async (req, res) => {
   }
 };
 
+exports.getMeetingsByJobOfferId = async (req, res) => {
+  try {
+    const jobOfferId = req.params.jobOfferId;
+
+    // Recherche des meetings par jobOfferId
+    const meetings = await Meeting.find({ jobOffer: jobOfferId });
+
+    if (!meetings) {
+      return res.status(404).json({ message: "Aucun meeting trouvé pour cet ID d'offre d'emploi." });
+    }
+
+    // Retourner les meetings trouvés
+    res.status(200).json({ meetings });
+  } catch (error) {
+    console.error("Erreur lors de la recherche des meetings par ID d'offre d'emploi :", error);
+    res.status(500).json({ error: "Erreur serveur lors de la recherche des meetings." });
+  }
+};
+
 
 
 exports.fillSuggestion = async (req, res) => {
@@ -164,6 +183,30 @@ exports.fillSuggestion = async (req, res) => {
     res.status(200).json({ message: 'Suggestion filled successfully', meeting });
   } catch (error) {
     console.error('Error filling suggestion:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+// Controller to get a meeting by ID
+exports.getMeetingById = async (req, res) => {
+  try {
+    const meetingId = req.params.meetingId;
+
+    // Check if the meeting ID is provided in the request
+    if (!meetingId) {
+      return res.status(400).json({ error: 'Meeting ID not provided' });
+    }
+
+    // Query to find the meeting by ID
+    const meeting = await Meeting.findById(meetingId).exec();
+
+    // Check if the meeting exists
+    if (!meeting) {
+      return res.status(404).json({ error: 'Meeting not found' });
+    }
+
+    res.status(200).json(meeting);
+  } catch (error) {
+    console.error('Error retrieving meeting by ID:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
