@@ -224,6 +224,101 @@ exports.geminiAnalyseWithText = async (req, res, next) => {
     });
   }
 };
+exports.geminiMoodPrecise = async (req, res, next) => {
+  const { text } = req.body;
+
+  try {
+    const requestBody = {
+      contents: [
+        {
+          parts: [
+            {
+              text: "input: 15:43:15: hello I am very happy to have you here 15:43:18:  and I'm sad too"
+            },
+            {
+              text: "output: [(15:43:15, happy), (15:43:18, sad)]"
+            },
+            {
+              text: "input: 16:18:39: hello my name is very happy to have you here 16:18:43:  and I'm so excited to do this 16:18:49:  and I am sad also because you are not answering in the car"
+            },
+            {
+              text: "output: [(16:18:39, happy), (16:18:43, excited), (16:18:49, sad)]"
+            },
+            {
+              text: "input: 16:23:52: hello 16:23:56:  I'm really sorry"
+            },
+            {
+              text: "output: [(16:23:52, natural), (16:23:56, sad)]"
+            },
+            {
+              text: "input: 16:36:53: hello I'm very excited to have you here 16:36:57:  and I'm very happy 16:37:00:  and I'm sad also 16:37:06:  so yeah"
+            },
+            {
+              text: "output: [(16:36:53, excited), (16:36:57, happy), (16:37:00, sad), (16:37:06, natural)]"
+            },
+            {
+              text: "input: 07:15:34: do you hear me 07:15:43:  this this 07:15:52:  out of here 07:15:56:  do you hear me"
+            },
+            {
+              text: "output: [(07:18:36, neutral), (07:18:40, happy), (07:18:44, excited), (07:18:48, neutral), (07:19:00, happy), (07:19:06, neutral), (07:19:09, happy), (07:19:13, excited), (07:19:15, neutral)]"
+            },
+            {
+              text: "input: 07:16:26: To me. 07:16:36: Yeah, that was but the bad idea, to be honest. 07:16:40: Have a good day."
+            },
+            {
+              text: "output: [(07:18:36, neutral), (07:18:40, happy), (07:18:44, excited), (07:18:48, neutral), (07:19:00, happy), (07:19:06, neutral), (07:19:13, excited), (07:19:15, neutral)]"
+            },
+            {
+              text: text // Inclure le texte de la variable text ici
+            },
+            {
+              text: "output: "
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 1,
+        topK: 0,
+        topP: 0.95,
+        maxOutputTokens: 8192,
+        stopSequences: []
+      },
+      safetySettings: [
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        }
+      ]
+    };
+
+    const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
+    
+    // Extraire le texte de la réponse
+    const reponse = response.data.candidates[0].content.parts[0].text;
+    
+    // Envoyer la réponse au client
+    res.json({ reponse });
+  } catch (error) {
+    console.error("Erreur lors de la requête à Google Gemini:", error);
+    // Envoyer une réponse d'erreur au client
+    res.status(500).json({
+      message: "Une erreur s'est produite lors de la requête à Google Gemini"
+    });
+  }
+};
 
 exports.chatgptAnalyse = async (req, res, next) => {
   const { transcribedText } = req.body;
