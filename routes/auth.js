@@ -42,7 +42,6 @@ router.route("/email/:email/:code").get(sendmail);
 router.route("/user/delete/:email").delete(remove);
 router.route("/login").post(login);
 router.route("/logout").post(logout);
-router.route("/logout").post(logout);
 router.route("/sendemail").post(sendEmailToAdmin);
 router.route("/email").post(sendEmail);
 router.route("/userCount").get(getTotalUsersCount);
