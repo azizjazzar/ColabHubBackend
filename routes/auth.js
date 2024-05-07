@@ -28,7 +28,8 @@ const {
   geminiAnalyse,
   geminiAnalyseWithText,
   updatebyId,
-  geminiMoodPrecise
+  geminiMoodPrecise,
+  gemini2Client
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
@@ -50,7 +51,7 @@ router.route("/chatgptAnalyse").post(chatgptAnalyse);
 router.route("/geminiAnalyse").post(geminiAnalyse);
 router.route("/geminiAnalyseWithText").post(geminiAnalyseWithText);
 router.route("/geminiMoodPrecise").post(geminiMoodPrecise);
-
+router.route("/gemini2Client").post(gemini2Client);
 router.route("/userid/:id").get(getById);
 
 //multer
