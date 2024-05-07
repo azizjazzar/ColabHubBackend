@@ -1,6 +1,6 @@
 const JobOffer = require("../models/jobOffer");
 const User = require("../models/User");
-
+const mongoose = require("mongoose");
 // Controller to create a new job offer
 exports.createJobOffer = async (req, res) => {
   try {
@@ -158,15 +158,15 @@ exports.applyToJobOffer = async (req, res) => {
 
 exports.getJobOfferApplicationById = async (req, res) => {
   try {
-   const jobOffer = await JobOffer.findById(req.params.jobId).populate({
-     path: "applications",
-     select: "applicantId cv applyDate",
-     populate: {
-       path: "applicantId",
-       model: "user",
-       select: "nom prenom email", // Adjust according to actual schema fields
-     },
-   });
+    const jobOffer = await JobOffer.findById(req.params.jobId).populate({
+      path: "applications",
+      select: "applicantId cv applyDate",
+      populate: {
+        path: "applicantId",
+        model: "user",
+        select: "nom prenom email", // Adjust according to actual schema fields
+      },
+    });
     if (!jobOffer) {
       return res.status(404).json({ error: "Job Offer not found" });
     }
@@ -175,5 +175,29 @@ exports.getJobOfferApplicationById = async (req, res) => {
   } catch (error) {
     console.error("Error fetching job offer with applications:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+exports.getJobOffersByOwner = async (req, res) => {
+  const userId = req.params.userId;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ message: "Invalid user ID format." });
+  }
+
+  try {
+    const jobOffers = await JobOffer.find({ ownerId: userId })
+      .populate({ path: "ownerId", model: "user", select: "nom email" }) // Explicitly use 'user'
+      .exec();
+
+    if (jobOffers.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No job offers found for this user." });
+    }
+
+    res.json(jobOffers);
+  } catch (error) {
+    console.error("Failed to fetch job offers:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

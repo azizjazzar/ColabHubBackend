@@ -5,6 +5,8 @@ const JobController = require("../controllers/jobOffer");
 const multer = require("multer");
 const path = require("path"); // Ensure path module is required
 
+const { verifyTokenMiddleware } = require("../middleware/auth");
+
 const upload = multer({
   storage: multer.diskStorage({
     destination: "uploads/",
@@ -34,6 +36,7 @@ router.delete("/delete/:jobId", JobController.deleteJobOffer);
 router.post("/add", JobController.createJobOffer);
 
 router.post("/add/:jobId/:freelancerId", JobController.addFreelancerToJobOffer);
+router.put("/update/:jobId", JobController.updateJobOffer);
 
 router.post(
   "/jobOffers/:jobId/apply",
@@ -44,6 +47,12 @@ router.post(
 router.get(
   "/jobOffers/:jobId/applications",
   JobController.getJobOfferApplicationById
+);
+
+router.get(
+  "/byowner/:userId",
+  verifyTokenMiddleware,
+  JobController.getJobOffersByOwner
 );
 
 module.exports = router;
