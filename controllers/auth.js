@@ -302,7 +302,22 @@ exports.geminiMoodPrecise = async (req, res, next) => {
           threshold: "BLOCK_MEDIUM_AND_ABOVE"
         }
       ]
-    };
+    }
+      const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=YOUR_API_KEY', requestBody);
+    
+    // Extraire le texte de la réponse
+    const reponse = response.data.candidates[0].content.parts[0].text;
+    
+    // Envoyer la réponse au client
+    res.json({ reponse });
+  } catch (error) {
+    console.error("Erreur lors de la requête à Google Gemini:", error);
+    // Envoyer une réponse d'erreur au client
+    res.status(500).json({
+      message: "Une erreur s'est produite lors de la requête à Google Gemini"
+    });
+  }
+};
 exports.gemini2Client = async (req, res, next) => {
   const { text } = req.body;
 
@@ -360,7 +375,22 @@ exports.gemini2Client = async (req, res, next) => {
           threshold: "BLOCK_MEDIUM_AND_ABOVE"
         }
       ]
-    };
+    }  
+      const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=YOUR_API_KEY', requestBody);
+    
+    // Extraire le texte de la réponse
+    const reponse = response.data.candidates[0].content.parts[0].text;
+    
+    // Envoyer la réponse au client
+    res.json({ reponse });
+  } catch (error) {
+    console.error("Erreur lors de la requête à Google Gemini:", error);
+    // Envoyer une réponse d'erreur au client
+    res.status(500).json({
+      message: "Une erreur s'est produite lors de la requête à Google Gemini"
+    });
+  }
+};
 
     const response = await fetch('gemini2-api-url', {
       method: 'POST',
