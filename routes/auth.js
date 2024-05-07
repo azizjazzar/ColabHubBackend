@@ -27,7 +27,8 @@ const {
   getTotalUsersCount,
   geminiAnalyse,
   geminiAnalyseWithText,
-  updatebyId
+  updatebyId,
+  geminiMoodPrecise
 } = require("../controllers/auth");
 const { verifyTokenMiddleware } = require("../middleware/auth");
 
@@ -48,6 +49,7 @@ router.route("/chatgpt").post(chatgpt);
 router.route("/chatgptAnalyse").post(chatgptAnalyse);
 router.route("/geminiAnalyse").post(geminiAnalyse);
 router.route("/geminiAnalyseWithText").post(geminiAnalyseWithText);
+router.route("/geminiMoodPrecise").post(geminiMoodPrecise);
 
 router.route("/userid/:id").get(getById);
 
