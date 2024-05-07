@@ -309,7 +309,7 @@ exports.geminiMoodPrecise = async (req, res, next) => {
     const response = rep.data.candidates[0].content.parts[0].text;
 
     // Send the response to the client
-    res.json({ response });
+    res.json({ answer:response });
   } catch (error) {
     console.error("Error during request to Google Gemini:", error);
     // Send an error response to the client
@@ -383,7 +383,7 @@ exports.gemini2Client = async (req, res, next) => {
     const response = rep.data.candidates[0].content.parts[0].text;
 
     // Send the response to the client
-    res.json({ response });
+    res.json({ answer:response });
   } catch (error) {
     console.error("Error during request to Google Gemini:", error);
     // Send an error response to the client
