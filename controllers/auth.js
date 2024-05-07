@@ -269,7 +269,7 @@ exports.geminiMoodPrecise = async (req, res, next) => {
               text: "output: [(07:18:36, neutral), (07:18:40, happy), (07:18:44, excited), (07:18:48, neutral), (07:19:00, happy), (07:19:06, neutral), (07:19:13, excited), (07:19:15, neutral)]"
             },
             {
-              text: text // Inclure le texte de la variable text ici
+              text: text 
             },
             {
               text: "output: "
@@ -303,7 +303,86 @@ exports.geminiMoodPrecise = async (req, res, next) => {
         }
       ]
     };
+exports.gemini2Client = async (req, res, next) => {
+  const { text } = req.body;
 
+  try {
+    const requestBody = {
+      contents: [
+        {
+         parts : [
+  {
+    text: "input: Client A:22:14:58: Do you hear me? 22:15:04: Yeah, thank you. So thank you for this meeting. 22:15:07: That was real successful one. 22:15:17: And I learned so much about uh about about about the subject Python which is Python. 22:15:23: And I hope I will see you later. Have a good day.\nClient B:\n22:12:28: Hello. 22:12:34: So we are here to discuss about Python. 22:12:50: I'm really happy to have you uh, as a student and uh, I will. I will try my best to educate you and learn you so much about Python. 22:13:16: Yes. So first you need to learn the basics of Python And some some some some stuff like this."
+  },
+  {
+    text: "output: confirmed"
+  },
+  {
+    text: "input: Client A:22:17:10: Hello. 22:17:24: So today we are going to learn about React. So React is a great technology that Facebook used in the in the past. 22:17:43: And it's still working right now and people use it so much. So you need to learn it and that's why I'm here, to give you some advice and to learn you some some React process. So. 22:17:50: Uh, so you need to. You need. You need to have a great.22:18:36: Thank you. Have a good day.\nClient B:\n22:19:29: So hello uh, I learned so much about it and today that was a great day for me. I hope. 22:19:44: The that I will learn it more and more and I hope that I will see you again or maybe we will have a discussion after. 22:19:52: Thank you and have a good day."
+  },
+  {
+    text: "output: confirmed"
+  },
+  {
+    text: "input: Client A:22:23:18: So hello. 22:23:36: I don't know the subject to be honest. I don't have any idea about it and this is a ******* so ******* stressful for me. 22:23:58: And to be honest, it's a really ****** situation that I'm in right now.\nClient B:\n22:24:51: Hello so yes uh, I know. I think the subject is about uh python .22:25:33: So thank you about this meet and have a good day."
+  },
+  {
+    text: "output: inappropriate"
+  },
+  {
+    text: "input: Client A :22:29:38: So hello uh, I don't know the the Meet is about what? Have a good day.\nClient B:\n22:30:10: So this means UH is really catastrophic. 22:30:15: And I will look into administration. 22:30:22: And I want my money back, to be honest. 22:30:24: Goodbye."
+  },
+  {
+    text: "output: declined"
+  },
+  {
+    text: "input: Client A: \nClient B:"
+  },
+  {
+    text: "output: declined"
+  },
+  {
+    text: "input: Client A:22:31:46: So hello today. Uh, thank you for your presence. I'm really happy to be here to learn. We'll learn **** more about business and you need so much time to learn it and you will have so much fun with me\nclient B:\n22:32:20: Yeah, uh, this meat is really successful. Thank you and have a good day."
+  },
+  {
+    text: "output: inappropriate"
+  },
+  {
+    text: text
+  },
+  {
+    text: "output: "
+  }
+];
+
+        }
+      ],
+      generationConfig: {
+        temperature: 1,
+        topK: 0,
+        topP: 0.95,
+        maxOutputTokens: 8192,
+        stopSequences: []
+      },
+      safetySettings: [
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        }
+      ]
+    };
     const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=' + process.env.GEMIKEY, requestBody);
     
     // Extraire le texte de la réponse
