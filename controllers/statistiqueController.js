@@ -129,7 +129,7 @@ exports.getall = async (req, res) => {
 exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
     const { token, channel } = req.body; 
-    const result = await Meeting.findOne({ token: token, channel: channel });
+    const result = await Meeting.findOne({  channel: channel });
 
     // Si aucun résultat n'est trouvé, retourner un objet vide
     if (!result) {
