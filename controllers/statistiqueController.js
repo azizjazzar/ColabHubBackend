@@ -128,8 +128,8 @@ exports.getall = async (req, res) => {
 
 exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
-    const { channel, token } = req.body; 
-    const results = await Meeting.findOne({ channel, token });
+    const { token } = req.body; 
+    const results = await Meeting.findOne({ token });
     res.json(results);
   } catch (err) {
     res.status(500).send({ message: "Erreur lors de la recherche des réunions", error: err.message });
