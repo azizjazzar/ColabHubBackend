@@ -130,7 +130,7 @@ exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
     const { c, t } = req.body; 
     const results = await Meeting.findOne({ channel: c, token: t });
-    res.json(results);
+    res.json("hello");
   } catch (err) {
     res.status(500).send({ message: "Erreur lors de la recherche des réunions", error: err.message });
   }
