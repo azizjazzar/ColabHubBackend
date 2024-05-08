@@ -130,11 +130,31 @@ exports.getMeetingByTokenAndChannel = async (req, res) => {
   try {
     const { token, channel } = req.body; 
     const result = await Meeting.findOne({ token: token, channel: channel });
-    res.json(result);
+
+    // Si aucun résultat n'est trouvé, retourner un objet vide
+    if (!result) {
+      return res.status(404).json({ message: "Aucune réunion trouvée pour le token et le canal donnés" });
+    }
+
+    // Si une réunion est trouvée, retourner les données de la réunion
+    res.json({
+      _id: result._id,
+      clientAID: result.clientAID,
+      clientBID: result.clientBID,
+      clientA: result.clientA,
+      clientB: result.clientB,
+      responseClientA: result.responseClientA,
+      responseClientB: result.responseClientB,
+      dateEnrg: result.dateEnrg,
+      token: result.token,
+      channel: result.channel,
+      status: result.status
+    });
   } catch (err) {
-    res.status(500).send({ message: "Erreur lors de la recherche des réunions", error: err.message });
+    res.status(500).json({ message: "Erreur lors de la recherche des réunions", error: err.message });
   }
 };
+
 
 
 exports.getCountOfStatistiques = async (req, res) => {
