@@ -1,4 +1,5 @@
 const ChatGemeni = require('../models/ChatGemeni');
+const axios = require("axios");
 
 exports.saveResponse = async (req, res) => {
     try {
@@ -51,44 +52,45 @@ exports.getAllResponsesById = async (req, res) => {
         res.status(500).json({ message: "Une erreur s'est produite lors de la récupération des réponses par ID." });
     }
 };
-
 exports.geminiWithText = async (req, res) => {
-    const { text } = req.body;
-  
+    const { userchats } = req.body;
+
     try {
-      const googleGeminiURL =
-        "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent";
-  
-      const requestBody = {
-        contents: [
-          {
-            role: "user",
-            parts: [
-              {
-                text: `${text}`,
-              },
+        const googleGeminiURL =
+            "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent";
+
+        // Créer un tableau de parties à partir des messages dans userchats
+        const parts = userchats.map(chat => ({
+            role: chat.role, // Utiliser le rôle de l'utilisateur
+            text: chat.message, // Utiliser le message de l'utilisateur
+        }));
+
+        const requestBody = {
+            contents: [
+                {
+                    role: "user", // Rôle de l'utilisateur pour la partie principale
+                    parts: parts, // Utiliser les parties créées à partir de userchats
+                },
             ],
-          },
-        ],
-      };
-  
-      const response = await axios.post(googleGeminiURL, requestBody, {
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": process.env.GEMINIKEY,
-        },
-      });
-  
-      // Récupérer le texte généré à partir de la réponse
-      const generatedText = response.data.candidates[0].content.parts[0].text;
-  
-      // Envoyer le texte généré en réponse
-      res.json({ answer: generatedText });
+        };
+
+        const response = await axios.post(googleGeminiURL, requestBody, {
+            headers: {
+                "Content-Type": "application/json",
+                "x-goog-api-key": process.env.GEMINIKEY,
+            },
+        });
+
+        // Récupérer le texte généré à partir de la réponse
+        const generatedText = response.data.candidates[0].content.parts[0].text;
+
+        // Envoyer le texte généré en réponse
+        res.json({ answer: generatedText });
     } catch (error) {
-      // Gérer les erreurs ici
-      console.error("Erreur lors de la requête à Google Gemini:", error);
-      res.status(500).json({
-        message: "Une erreur s'est produite lors de la requête à Google Gemini",
-      });
+        // Gérer les erreurs ici
+        console.error("Erreur lors de la requête à Google Gemini:", error);
+        res.status(500).json({
+            message: "Une erreur s'est produite lors de la requête à Google Gemini",
+        });
     }
-  };
+};
