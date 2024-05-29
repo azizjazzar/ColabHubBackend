@@ -2,10 +2,11 @@ const ChatGemeni = require('../models/ChatGemeni');
 
 exports.saveResponse = async (req, res) => {
     try {
-        const { role, message } = req.body;
+        const { role, message,userId } = req.body;
         const response = await ChatGemeni.create({
             role: role,
-            message: message
+            message: message,
+            userId: userId
         });
 
         res.status(201).json(response);
