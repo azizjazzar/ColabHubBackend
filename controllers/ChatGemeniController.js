@@ -41,7 +41,7 @@ exports.getResponseById = async (req, res) => {
 exports.getAllResponsesById = async (req, res) => {
     try {
         const responseId = req.params.id;
-        const responses = await ChatGemeni.find({ _id: responseId });
+        const responses = await ChatGemeni.find({ userId: responseId });
         if (!responses || responses.length === 0) {
             return res.status(404).json({ message: "Aucune réponse trouvée pour cet ID" });
         }
