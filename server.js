@@ -19,7 +19,7 @@ const nlp = require('compromise');
 
 const chatRoutes = require("./routes/ChatRoute");
 const MessageRoute = require("./routes/MessageRoute");
-
+const ChatGemeniRoute = require("./routes/ChatgemeniRoute");
 
 connectDB();
 
@@ -63,6 +63,8 @@ app.use('/consultations', consultationsRoutes);
 app.use('/services', servicesRoutes);
 app.use('/payment', paymentRoutes);
 app.use('/requests', clientRequestRoutes);
+app.use('/ChatGemeni', ChatGemeniRoute);
+
 
 // Route for tasks
 app.use('/tasks', taskRoutes);
