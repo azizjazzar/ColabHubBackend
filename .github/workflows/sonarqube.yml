@@ -28,6 +28,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Run build
+        run: npm run build
+
       - name: Setup SonarScanner
         uses: SonarSource/sonarcloud-github-action@v1.7
         env:
@@ -38,5 +41,5 @@ jobs:
           npx sonar-scanner \
             -Dsonar.projectKey=ton_projet \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.host.url=http://192.168.33.10:9000 \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
