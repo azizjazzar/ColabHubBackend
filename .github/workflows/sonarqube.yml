@@ -41,5 +41,5 @@ jobs:
           npx sonar-scanner \
             -Dsonar.projectKey=ton_projet \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://192.168.33.10:9000 \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
