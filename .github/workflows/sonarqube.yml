@@ -35,11 +35,12 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v1.7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # Added SONAR_HOST_URL here
 
       - name: Run SonarQube Scanner
         run: |
           npx sonar-scanner \
             -Dsonar.projectKey=ton_projet \
             -Dsonar.sources=. \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
